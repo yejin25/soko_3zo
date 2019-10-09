@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Gabriel Massadas
+ * @author Gabriel Massada
  */
 public class MinesFinder extends javax.swing.JFrame {
 
