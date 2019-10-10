@@ -18,7 +18,7 @@ import pt.technic.apps.minesfinder.Minefield;
 
 /**
  *
- * @author Gabriel Massadas
+ * @author Gabriel Massada
  */
 public class MinefieldTest {
 

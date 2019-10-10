@@ -112,26 +112,40 @@ public class GameWindow extends javax.swing.JFrame {
             @Override
             public void keyPressed(KeyEvent e) {
                 ButtonMinefield botao = (ButtonMinefield) e.getSource();
-                int x = botao.getWidth();
-                int y = botao.getHeight();
+                int x = botao.getCol();
+                int y = botao.getLine();
                 if (e.getKeyCode() == KeyEvent.VK_UP && y > 0) {
-                    buttons[x][y - 1].requestFocus();
-                } else if (e.getKeyCode() == KeyEvent.VK_LEFT && x > 0) {
                     buttons[x - 1][y].requestFocus();
-                } else if (e.getKeyCode() == KeyEvent.VK_DOWN && y
-                        < minefield.getHeight() - 1) {
-                    buttons[x][y + 1].requestFocus();
-                } else if (e.getKeyCode() == KeyEvent.VK_RIGHT && x
-                        < minefield.getWidth() - 1) {
+                } else if (e.getKeyCode() == KeyEvent.VK_LEFT && x > 0) {
+                    buttons[x][y - 1].requestFocus();
+                } else if (e.getKeyCode() == KeyEvent.VK_DOWN && y < minefield.getHeight() - 1) {
                     buttons[x + 1][y].requestFocus();
+                } else if (e.getKeyCode() == KeyEvent.VK_RIGHT && x < minefield.getWidth() - 1) {
+                    buttons[x][y + 1].requestFocus();
                 } else if (e.getKeyCode() == KeyEvent.VK_M) {
                     if (minefield.getGridState(x, y) == minefield.COVERED) {
                         minefield.setMineMarked(x, y);
-                    } else if (minefield.getGridState(x,
-                            y) == minefield.MARKED) {
+                    } else if (minefield.getGridState(x, y) == minefield.MARKED) {
                         minefield.setMineQuestion(x, y);
-                    } else if (minefield.getGridState(x,
-                            y) == minefield.QUESTION) {
+                    } else if (minefield.getGridState(x, y) == minefield.QUESTION) {
+                        minefield.setMineCovered(x, y);
+                    }
+                    updateButtonsStates();
+                }
+                if (e.getKeyCode() == KeyEvent.VK_W && y > 0) {
+                    buttons[x - 1][y].requestFocus();
+                } else if (e.getKeyCode() == KeyEvent.VK_A && x > 0) {
+                    buttons[x][y - 1].requestFocus();
+                } else if (e.getKeyCode() == KeyEvent.VK_S && y < minefield.getHeight() - 1) {
+                    buttons[x + 1][y].requestFocus();
+                } else if (e.getKeyCode() == KeyEvent.VK_D && x < minefield.getWidth() - 1) {
+                    buttons[x][y + 1].requestFocus();
+                } else if (e.getKeyCode() == KeyEvent.VK_F) {
+                    if (minefield.getGridState(x, y) == minefield.COVERED) {
+                        minefield.setMineMarked(x, y);
+                    } else if (minefield.getGridState(x, y) == minefield.MARKED) {
+                        minefield.setMineQuestion(x, y);
+                    } else if (minefield.getGridState(x, y) == minefield.QUESTION) {
                         minefield.setMineCovered(x, y);
                     }
                     updateButtonsStates();

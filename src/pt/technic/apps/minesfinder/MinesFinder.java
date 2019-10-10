@@ -11,13 +11,14 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Gabriel Massada
+ * @author Gabriel Massadas
  */
 public class MinesFinder extends javax.swing.JFrame {
 
     private RecordTable recordEasy;
     private RecordTable recordMedium;
     private RecordTable recordHard;
+    private RecordTable recordBattle;
 
     /**
      * Creates new form MinesFinder
@@ -27,6 +28,7 @@ public class MinesFinder extends javax.swing.JFrame {
         recordEasy = new RecordTable();
         recordMedium = new RecordTable();
         recordHard = new RecordTable();
+        recordBattle = new RecordTable();
 
         readGameRecords();
 
@@ -36,6 +38,10 @@ public class MinesFinder extends javax.swing.JFrame {
         labelMediumPoints.setText(Long.toString(recordMedium.getScore()/1000));
         labelHardName.setText(recordHard.getName());
         labelHardPoints.setText(Long.toString(recordHard.getScore()/1000));
+        labelBattleName.setText(recordBattle.getName());
+        labelBattlePoints.setText(Long.toString(recordBattle.getScore()/1000));
+
+
 
         recordEasy.addRecordTableListener(new RecordTableListener() {
             @Override
@@ -55,6 +61,12 @@ public class MinesFinder extends javax.swing.JFrame {
             @Override
             public void recordUpdated(RecordTable record) {
                 recordHardUpdated(record);
+            }
+        });
+        recordBattle.addRecordTableListener(new RecordTableListener() {
+            @Override
+            public void recordUpdated(RecordTable record) {
+                recordBattleUpdated(record);
             }
         });
     }
@@ -77,6 +89,12 @@ public class MinesFinder extends javax.swing.JFrame {
         saveGameRecords();
     }
 
+    private void recordBattleUpdated(RecordTable record) {
+        labelBattleName.setText(record.getName());
+        labelBattlePoints.setText(Long.toString(record.getScore()/1000));
+        saveGameRecords();
+    }
+
     private void saveGameRecords() {
         ObjectOutputStream oos = null;
         try {
@@ -85,6 +103,7 @@ public class MinesFinder extends javax.swing.JFrame {
             oos.writeObject(recordEasy);
             oos.writeObject(recordMedium);
             oos.writeObject(recordHard);
+            oos.writeObject(recordBattle);
             oos.close();
         } catch (IOException ex) {
             Logger.getLogger(MinesFinder.class.getName()).log(Level.SEVERE, null,
@@ -101,6 +120,7 @@ public class MinesFinder extends javax.swing.JFrame {
                 recordEasy = (RecordTable) ois.readObject();
                 recordMedium = (RecordTable) ois.readObject();
                 recordHard = (RecordTable) ois.readObject();
+                recordBattle = (RecordTable) ois.readObject();
                 ois.close();
             } catch (IOException | ClassNotFoundException ex) {
                 Logger.getLogger(MinesFinder.class.getName()).log(Level.SEVERE,
@@ -119,6 +139,7 @@ public class MinesFinder extends javax.swing.JFrame {
         panelTitle = new javax.swing.JLabel();
         panelRecords = new javax.swing.JPanel();
         Records = new javax.swing.JLabel();
+
         labelEasy = new javax.swing.JLabel();
         labelEasyName = new javax.swing.JLabel();
         labelEasyPoints = new javax.swing.JLabel();
@@ -128,11 +149,15 @@ public class MinesFinder extends javax.swing.JFrame {
         labelHard = new javax.swing.JLabel();
         labelHardName = new javax.swing.JLabel();
         labelHardPoints = new javax.swing.JLabel();
+        labelBattle = new javax.swing.JLabel();
+        labelBattleName = new javax.swing.JLabel();
+        labelBattlePoints = new javax.swing.JLabel();
+
         panelBtns = new javax.swing.JPanel();
         btnEasy = new javax.swing.JButton();
         btnMedium = new javax.swing.JButton();
         btnHard = new javax.swing.JButton();
-        btnExit = new javax.swing.JButton();
+        btnBattle = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MinesFinder");
@@ -177,6 +202,14 @@ public class MinesFinder extends javax.swing.JFrame {
 
         labelHardPoints.setText("9999");
 
+        labelBattle.setFont(new java.awt.Font("Noto Sans", 0, 14)); // NOI18N
+        labelBattle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelBattle.setText("Battle");
+
+        labelBattleName.setText("Winner");
+
+        labelBattlePoints.setText("9999");
+
         javax.swing.GroupLayout panelRecordsLayout = new javax.swing.GroupLayout(panelRecords);
         panelRecords.setLayout(panelRecordsLayout);
         panelRecordsLayout.setHorizontalGroup(
@@ -197,9 +230,15 @@ public class MinesFinder extends javax.swing.JFrame {
                         .addComponent(labelMediumPoints))
                     .addComponent(labelHard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(panelRecordsLayout.createSequentialGroup()
-                        .addComponent(labelHardName)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(labelHardPoints)))
+                            .addComponent(labelHardName)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelHardPoints))
+                        .addComponent(labelBattle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(panelRecordsLayout.createSequentialGroup()
+                                .addComponent(labelBattleName)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(labelBattlePoints)))
+
                 .addContainerGap())
         );
         panelRecordsLayout.setVerticalGroup(
@@ -224,7 +263,13 @@ public class MinesFinder extends javax.swing.JFrame {
                 .addGroup(panelRecordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labelHardPoints)
                     .addComponent(labelHardName))
-                .addGap(0, 169, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                    .addComponent(labelBattle)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(panelRecordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelBattlePoints)
+                            .addComponent(labelBattleName))
+                    .addGap(0, 169, Short.MAX_VALUE))
         );
 
         getContentPane().add(panelRecords, java.awt.BorderLayout.LINE_START);
@@ -258,13 +303,13 @@ public class MinesFinder extends javax.swing.JFrame {
         });
         panelBtns.add(btnHard);
 
-        btnExit.setText("Exit");
-        btnExit.addActionListener(new java.awt.event.ActionListener() {
+        btnBattle.setText("Battle");    //btnExit -> btnBattle
+        btnBattle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExitActionPerformed(evt);
+                btnBattleActionPerformed(evt);
             }
         });
-        panelBtns.add(btnExit);
+        panelBtns.add(btnBattle);
 
         getContentPane().add(panelBtns, java.awt.BorderLayout.CENTER);
 
@@ -276,9 +321,11 @@ public class MinesFinder extends javax.swing.JFrame {
         gameWindow.setVisible(true);
     }//GEN-LAST:event_btnEasyActionPerformed
 
-    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
-        System.exit(0);
-    }//GEN-LAST:event_btnExitActionPerformed
+    private void btnBattleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBattleActionPerformed
+        //System.exit(0);
+        GameWindow gameWindow = new GameWindow(new Minefield(9,9,10), recordBattle);
+        gameWindow.setVisible(true);
+    }//GEN-LAST:event_btnBattleActionPerformed
 
     private void btnMediumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMediumActionPerformed
         GameWindow gameWindow = new GameWindow(new Minefield(16, 16, 40), recordMedium);
@@ -328,7 +375,7 @@ public class MinesFinder extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Records;
     private javax.swing.JButton btnEasy;
-    private javax.swing.JButton btnExit;
+    private javax.swing.JButton btnBattle;
     private javax.swing.JButton btnHard;
     private javax.swing.JButton btnMedium;
     private javax.swing.JLabel labelEasy;
@@ -340,6 +387,9 @@ public class MinesFinder extends javax.swing.JFrame {
     private javax.swing.JLabel labelMedium;
     private javax.swing.JLabel labelMediumName;
     private javax.swing.JLabel labelMediumPoints;
+    private javax.swing.JLabel labelBattle;
+    private javax.swing.JLabel labelBattleName;
+    private javax.swing.JLabel labelBattlePoints;
     private javax.swing.JPanel panelBtns;
     private javax.swing.JPanel panelRecords;
     private javax.swing.JLabel panelTitle;
