@@ -24,10 +24,14 @@ public class Minefield {
 
     private boolean firstPlay;
     private boolean playerDefeated;
+    private boolean battleWin;
     private boolean gameFinished;
+    private boolean battleFinished;
     
     private long timeGameStarted;
     private long timeGameDuration;
+
+    private int score;
 
     public Minefield(int width, int height, int numMines) {
         if(numMines<=0){
@@ -44,7 +48,10 @@ public class Minefield {
 
         firstPlay = true;
         playerDefeated = false;
+        battleWin = false;
         gameFinished = false;
+
+        score = 0;
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -84,6 +91,31 @@ public class Minefield {
             }
         }
     }
+    public void BattlerevealGrid(int x, int y){
+        if(states[x][y]== COVERED && !battleFinished){
+            if(firstPlay){
+                firstPlay = false;
+                placeMines(x,y);
+                timeGameStarted=System.currentTimeMillis();
+            }
+            if(mines[x][y]){
+                ++score;
+                states[x][y] = BUSTED;
+                if(score==numMines){
+                    battleWin=true;
+                    battleFinished=true;
+                    timeGameDuration=System.currentTimeMillis()-timeGameStarted;
+                    return;
+                }
+            }
+//            int minesAround = countMinesAround(x,y);
+//            states[x][y] = minesAround;
+//
+//            if(minesAround ==0){
+//                BattlerevealGridNeighbors(x,y);
+//            }
+        }
+    }
     
     public long getGameDuration(){
         if(firstPlay){
@@ -102,6 +134,14 @@ public class Minefield {
             }
         }
     }
+
+//    private void BattlerevealGridNeighbors(int x, int y){
+//        for (int col = Math.max(0, x - 1); col < Math.min(width, x + 2); col++) {
+//            for (int line = Math.max(0, y - 1); line < Math.min(height, y + 2); line++) {
+//                BattlerevealGrid(col, line);
+//            }
+//        }
+//    }
 
     public void setMineMarked(int x, int y) {
         if (states[x][y] == COVERED || states[x][y] == QUESTION) {
@@ -151,6 +191,14 @@ public class Minefield {
 
     public boolean isGameFinished() {
         return gameFinished;
+    }
+
+    public boolean isBattleFinished(){
+        return battleFinished;
+    }
+
+    public boolean isBattleWin(){
+        return battleWin;
     }
 
     private void placeMines(int plX, int plY) {
