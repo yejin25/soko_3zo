@@ -29,8 +29,10 @@ public class Minefield {
     private boolean gameFinished;
     private boolean battleFinished;
 
-    private int score;
+    private long timeGameStarted;
+    private long timeGameDuration;
 
+    private int score;
     public Minefield(int width, int height, int numMines) {
         if(numMines<=0){
             throw new IllegalArgumentException("Mines nuumber must be bigger than 0");
@@ -92,7 +94,7 @@ public class Minefield {
             if(firstPlay){
                 firstPlay = false;
                 placeMines(x,y);
-//                timeGameStarted=System.currentTimeMillis();
+                timeGameStarted=System.currentTimeMillis();
             }
             if(mines[x][y]){
                 ++score;
@@ -100,29 +102,24 @@ public class Minefield {
                 if(score==numMines){
                     battleWin=true;
                     battleFinished=true;
-//                    timeGameDuration=System.currentTimeMillis()-timeGameStarted;
+                   timeGameDuration=System.currentTimeMillis()-timeGameStarted;
                     return;
                 }
             }
-//            int minesAround = countMinesAround(x,y);
-//            states[x][y] = minesAround;
-//
-//            if(minesAround ==0){
-//                BattlerevealGridNeighbors(x,y);
-//            }
+
+            }
         }
-    }
     
-//    public long getGameDuration(){
-//        if(firstPlay){
-//            return 0;
-//        }
-//        if(!gameFinished){
-//            return System.currentTimeMillis()-timeGameStarted; 
-//        }
-//        return timeGameDuration;
-//    }
-//
+    public long getGameDuration(){
+        if(firstPlay){
+            return 0;
+        }
+        if(!gameFinished){
+            return System.currentTimeMillis()-timeGameStarted;
+        }
+        return timeGameDuration;
+  }
+
     private void revealGridNeighbors(int x, int y) {
         for (int col = Math.max(0, x - 1); col < Math.min(width, x + 2); col++) {
             for (int line = Math.max(0, y - 1); line < Math.min(height, y + 2); line++) {
@@ -130,14 +127,6 @@ public class Minefield {
             }
         }
     }
-
-//    private void BattlerevealGridNeighbors(int x, int y){
-//        for (int col = Math.max(0, x - 1); col < Math.min(width, x + 2); col++) {
-//            for (int line = Math.max(0, y - 1); line < Math.min(height, y + 2); line++) {
-//                BattlerevealGrid(col, line);
-//            }
-//        }
-//    }
 
 	public void setMineMarked(int x, int y) {
 		if (numMarkChances > 0) {

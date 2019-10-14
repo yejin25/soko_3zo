@@ -10,9 +10,15 @@ import javax.swing.JButton;
 public class ButtonMinefield extends JButton {
     private int state, col, line;
 
-    public ButtonMinefield(int col, int line) {
+    public ButtonMinefield(int col, int line,int i) {
         this.col = col;
         this.line = line;
+        if(i==1){
+            setBackground(Color.gray);
+        }
+        else{
+            setBackground(Color.DARK_GRAY);
+        }
         state=Minefield.COVERED;
     }
     

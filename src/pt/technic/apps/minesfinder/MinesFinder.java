@@ -323,8 +323,8 @@ public class MinesFinder extends javax.swing.JFrame {
 
     private void btnBattleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBattleActionPerformed
         //System.exit(0);
-        GameWindow gameWindow = new GameWindow(new Minefield(9,9,10), recordBattle);
-        gameWindow.setVisible(true);
+        BattleMode battlewindow = new BattleMode(new Minefield(9,9,10),recordBattle);
+        battlewindow.setVisible(true);
     }//GEN-LAST:event_btnBattleActionPerformed
 
     private void btnMediumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMediumActionPerformed

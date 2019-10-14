@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-//Testing!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 /**
  *
  * @author Gabriel Massadas
@@ -129,29 +129,8 @@ public class GameWindow extends javax.swing.JFrame {
 				} else if (e.getKeyCode() == KeyEvent.VK_DOWN && x < minefield.getHeight() - 1) {
 					buttons[x + 1][y].requestFocus();
 				} else if (e.getKeyCode() == KeyEvent.VK_RIGHT && y < minefield.getWidth() - 1) {
-					buttons[x][y + 1].requestFocus();
-				} else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					Battlebtn(x, y);
-				} else if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
-					if (minefield.getGridState(x, y) == minefield.COVERED) {
-						minefield.setMineMarked(x, y);
-					} else if (minefield.getGridState(x, y) == minefield.MARKED) {
-						minefield.setMineQuestion(x, y);
-					} else if (minefield.getGridState(x, y) == minefield.QUESTION) {
-						minefield.setMineCovered(x, y);
-					}
-					updateButtonsStates();
-				} else if (e.getKeyCode() == KeyEvent.VK_W && x > 0) {
-					buttons[x - 1][y].requestFocus();
-				} else if (e.getKeyCode() == KeyEvent.VK_A && y > 0) {
-					buttons[x][y - 1].requestFocus();
-				} else if (e.getKeyCode() == KeyEvent.VK_S && x < minefield.getHeight() - 1) {
-					buttons[x + 1][y].requestFocus();
-				} else if (e.getKeyCode() == KeyEvent.VK_D && y < minefield.getWidth() - 1) {
-					buttons[x][y + 1].requestFocus();
-				} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-					Battlebtn(x, y);
-				} else if (e.getKeyCode() == KeyEvent.VK_F) {
+                    buttons[x][y + 1].requestFocus();
+                } else if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
 					if (minefield.getGridState(x, y) == minefield.COVERED) {
 						minefield.setMineMarked(x, y);
 					} else if (minefield.getGridState(x, y) == minefield.MARKED) {
@@ -176,7 +155,7 @@ public class GameWindow extends javax.swing.JFrame {
 		// Create buttons for the player
 		for (int x = 0; x < minefield.getWidth(); x++) {
 			for (int y = 0; y < minefield.getHeight(); y++) {
-				buttons[x][y] = new ButtonMinefield(x, y);
+				buttons[x][y] = new ButtonMinefield(x, y,1);
 				buttons[x][y].addActionListener(action);
 				buttons[x][y].addMouseListener(mouseListener);
 				buttons[x][y].addKeyListener(keyListener);
@@ -221,45 +200,6 @@ public class GameWindow extends javax.swing.JFrame {
 //        lastKeyPressedCode = e.getKeyCode();
 //        return false;
 //    }
-	private void Battlebtn(int x, int y) {
-		minefield.BattlerevealGrid(x, y);
-		updateButtonsStates();
-		if (minefield.isBattleFinished()) {
-			if (minefield.isBattleWin()) {
-				JOptionPane.showMessageDialog(null, "COGRATULATIONS. You Find All Mines", "WIN!",
-						JOptionPane.INFORMATION_MESSAGE);
-				long a = sec[0];
-				long b = record.getScore();
-				boolean newRecord = sec[0] < record.getScore();
-
-				if (newRecord) {
-					String name = JOptionPane.showInputDialog("Enter your name");
-					if (name != "")
-						record.setRecord(name, sec[0]);
-				}
-				setVisible(false);
-			}
-//                JOptionPane.showMessageDialog(null, "Oh, a mine broke",
-//                        "Lost!", JOptionPane.INFORMATION_MESSAGE);
-//            } else {
-//                JOptionPane.showMessageDialog(null, "Congratulations. You managed to discover all the mines in "
-//                                + (minefield.getGameDuration() / 1000) + " seconds",
-//                        "victory", JOptionPane.INFORMATION_MESSAGE
-//                );
-//                long a = minefield.getGameDuration();
-//                long b = record.getScore();
-//                boolean newRecord = minefield.getGameDuration() < record.getScore();
-//
-//                if (newRecord) {
-//                    String name = JOptionPane.showInputDialog("Enter your name");
-//                    if(name != "")
-//                        record.setRecord(name, minefield.getGameDuration());
-//                }
-//            }
-//            setVisible(false);
-//        }
-		}
-	}
 
 	private void updateButtonsStates() {
 		for (int x = 0; x < minefield.getWidth(); x++) {
