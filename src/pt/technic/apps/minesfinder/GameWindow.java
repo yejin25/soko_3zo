@@ -190,7 +190,7 @@ public class GameWindow extends javax.swing.JFrame {
 		JMenuBar statusBar = new JMenuBar(); // 상태바 생성
 		JPanel panel = new JPanel(); // 패널 생성
 		JLabel timeLabel = new JLabel(
-				"Time : " + String.valueOf(sec[0]) + "/  Mark Chances : " + this.minefield.getNumMarkChances()); // 레이블
+				"Time : " + String.valueOf(sec[0]) + " /  Mark Chances : " + this.minefield.getNumMarkChances()); // 레이블
 																													// 생성
 
 		ThreadPool.timeThreadPool.submit(() -> {
