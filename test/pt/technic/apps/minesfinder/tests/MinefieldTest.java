@@ -190,23 +190,23 @@ public class MinefieldTest {
         }
     }
 
-    @Test
-    public void testGameTimeDuration() {
-        Minefield minefield = new Minefield(9, 9, 10);
-        assertEquals("Game duration doesn't start at 0", 0, minefield.getGameDuration());
-        minefield.revealGrid(0, 0);
-        waitTime(10);
-        long time1 = minefield.getGameDuration();
-        assertTrue("O jogo não está a contar o tempo", time1 > 0);
-        waitTime(10);
-        long time2 = minefield.getGameDuration();
-        assertTrue("O jogo não está a contar o tempo", time2 > time1
-        );
-        winGame(minefield);
-        assertTrue(minefield.isGameFinished()&& !minefield.isPlayerDefeated());
-        long time3 = minefield.getGameDuration();
-        waitTime(10);
-        long time4 = minefield.getGameDuration();
-        assertEquals("O tempo continua a contar mesmo depois de terminado", time3, time4);
-    }
+//    @Test
+//    public void testGameTimeDuration() {
+//        Minefield minefield = new Minefield(9, 9, 10);
+//        assertEquals("Game duration doesn't start at 0", 0, minefield.getGameDuration());
+//        minefield.revealGrid(0, 0);
+//        waitTime(10);
+//        long time1 = minefield.getGameDuration();
+//        assertTrue("O jogo não está a contar o tempo", time1 > 0);
+//        waitTime(10);
+//        long time2 = minefield.getGameDuration();
+//        assertTrue("O jogo não está a contar o tempo", time2 > time1
+//        );
+//        winGame(minefield);
+//        assertTrue(minefield.isGameFinished()&& !minefield.isPlayerDefeated());
+//        long time3 = minefield.getGameDuration();
+//        waitTime(10);
+//        long time4 = minefield.getGameDuration();
+//        assertEquals("O tempo continua a contar mesmo depois de terminado", time3, time4);
+//    }
 }

@@ -21,15 +21,13 @@ public class Minefield {
     private int height;
     private int numMines;
     private Random random;
+    private int numMarkChances;
 
     private boolean firstPlay;
     private boolean playerDefeated;
     private boolean battleWin;
     private boolean gameFinished;
     private boolean battleFinished;
-    
-    private long timeGameStarted;
-    private long timeGameDuration;
 
     private int score;
 
@@ -41,6 +39,7 @@ public class Minefield {
         this.width = width;
         this.height = height;
         this.numMines = numMines;
+        this.numMarkChances = numMines;
         mines = new boolean[width][height];
         states = new int[width][height];
 
@@ -65,14 +64,12 @@ public class Minefield {
             if (firstPlay) {
                 firstPlay = false;
                 placeMines(x, y);
-                timeGameStarted=System.currentTimeMillis();
             }
 
             if (mines[x][y]) {
                 states[x][y] = BUSTED;
                 playerDefeated = true;
                 gameFinished = true;
-                timeGameDuration=System.currentTimeMillis()-timeGameStarted;
                 return;
             }
 
@@ -86,7 +83,6 @@ public class Minefield {
             if(checkVictory()) {
                 gameFinished=true;
                 playerDefeated=false;
-                timeGameDuration=System.currentTimeMillis()-timeGameStarted;
                 return;
             }
         }
@@ -96,7 +92,7 @@ public class Minefield {
             if(firstPlay){
                 firstPlay = false;
                 placeMines(x,y);
-                timeGameStarted=System.currentTimeMillis();
+//                timeGameStarted=System.currentTimeMillis();
             }
             if(mines[x][y]){
                 ++score;
@@ -104,7 +100,7 @@ public class Minefield {
                 if(score==numMines){
                     battleWin=true;
                     battleFinished=true;
-                    timeGameDuration=System.currentTimeMillis()-timeGameStarted;
+//                    timeGameDuration=System.currentTimeMillis()-timeGameStarted;
                     return;
                 }
             }
@@ -117,16 +113,16 @@ public class Minefield {
         }
     }
     
-    public long getGameDuration(){
-        if(firstPlay){
-            return 0;
-        }
-        if(!gameFinished){
-            return System.currentTimeMillis()-timeGameStarted; 
-        }
-        return timeGameDuration;
-    }
-
+//    public long getGameDuration(){
+//        if(firstPlay){
+//            return 0;
+//        }
+//        if(!gameFinished){
+//            return System.currentTimeMillis()-timeGameStarted; 
+//        }
+//        return timeGameDuration;
+//    }
+//
     private void revealGridNeighbors(int x, int y) {
         for (int col = Math.max(0, x - 1); col < Math.min(width, x + 2); col++) {
             for (int line = Math.max(0, y - 1); line < Math.min(height, y + 2); line++) {
@@ -143,17 +139,25 @@ public class Minefield {
 //        }
 //    }
 
-    public void setMineMarked(int x, int y) {
-        if (states[x][y] == COVERED || states[x][y] == QUESTION) {
-            states[x][y] = MARKED;
-        }
-    }
+	public void setMineMarked(int x, int y) {
+		if (numMarkChances > 0) {
+			if (states[x][y] == COVERED || states[x][y] == QUESTION) {
+				states[x][y] = MARKED;
+				numMarkChances -= 1;//마크 표시되면 찬스-1 
+			}
+		}
+	}
 
-    public void setMineQuestion(int x, int y) {
-        if (states[x][y] == COVERED || states[x][y] == MARKED) {
-            states[x][y] = QUESTION;
-        }
-    }
+	public void setMineQuestion(int x, int y) {
+		if (states[x][y] == COVERED) {
+			states[x][y] = QUESTION;
+		}
+		
+		if (states[x][y] == MARKED) {
+			states[x][y] = QUESTION;
+			numMarkChances += 1; //마크 취소 되면 찬스+1 
+		}
+	}
 
     public void setMineCovered(int x, int y) {
         if (states[x][y] == MARKED || states[x][y] == QUESTION) {
@@ -232,6 +236,10 @@ public class Minefield {
 
     public int getNumMines() {
         return numMines;
+    }
+    
+    public int getNumMarkChances() {
+    	return numMarkChances; // 남은 표시 개수 리턴 
     }
 
 }
