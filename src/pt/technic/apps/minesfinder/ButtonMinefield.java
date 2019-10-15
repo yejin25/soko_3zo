@@ -45,6 +45,9 @@ public class ButtonMinefield extends JButton {
                 setText("*");
                 setBackground(Color.orange);
                 break;
+            case Minefield.PORTION:
+                setText("&");
+                setBackground(Color.PINK);
             default:
                 setText(String.valueOf(state));
                 setBackground(Color.gray);

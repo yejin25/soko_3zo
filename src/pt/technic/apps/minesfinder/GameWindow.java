@@ -25,7 +25,7 @@ public class GameWindow extends javax.swing.JFrame {
 	private RecordTable record;
 	private final int[] sec = { 0 };// 시간 선언
 	private boolean gameStart = false; // 게임이 시작 되었는지 판별
-
+	private int LIFE;
 //    private static int doublePressSpeed = 300; // double keypressed in ms
 //    private static long timeKeyDown = 0;       // last keyperessed time
 //    public static int lastKeyPressedCode;
@@ -130,7 +130,9 @@ public class GameWindow extends javax.swing.JFrame {
 					buttons[x + 1][y].requestFocus();
 				} else if (e.getKeyCode() == KeyEvent.VK_RIGHT && y < minefield.getWidth() - 1) {
                     buttons[x][y + 1].requestFocus();
-                } else if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+                } else if(e.getKeyCode()== KeyEvent.VK_SPACE){
+					Battlebtn(x,y);
+				} else if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
 					if (minefield.getGridState(x, y) == minefield.COVERED) {
 						minefield.setMineMarked(x, y);
 					} else if (minefield.getGridState(x, y) == minefield.MARKED) {
@@ -200,6 +202,32 @@ public class GameWindow extends javax.swing.JFrame {
 //        lastKeyPressedCode = e.getKeyCode();
 //        return false;
 //    }
+
+	private void Battlebtn(int x, int y) {  //지뢰 다 찾으면 승리
+		minefield.BattlerevealGrid(x, y);
+		updateButtonsStates();
+		if (minefield.isBattleFinished()) {
+            gameStart = false;
+			if (minefield.isBattleWin()) {
+				JOptionPane.showMessageDialog(null, "COGRATULATIONS. You Find All Mines",
+						"WIN!", JOptionPane.INFORMATION_MESSAGE);
+				long a = minefield.getGameDuration();
+				long b = record.getScore();
+				boolean newRecord = minefield.getGameDuration() < record.getScore();
+
+				if (newRecord) {
+					String name = JOptionPane.showInputDialog("Enter your name");
+					if (name != "")
+						record.setRecord(name, minefield.getGameDuration());
+				}
+			}
+			else{
+				JOptionPane.showMessageDialog(null, "Oh, You LOSE", "LOSER",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+			setVisible(false);
+		}
+	}
 
 	private void updateButtonsStates() {
 		for (int x = 0; x < minefield.getWidth(); x++) {

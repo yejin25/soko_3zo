@@ -14,9 +14,11 @@ public class Minefield {
     public static final int QUESTION = 10;
     public static final int MARKED = 11;
     public static final int BUSTED = 12;
+    public static final int PORTION= 13;
 
     private boolean[][] mines;
     private int[][] states;
+    private boolean[][] portion;
     private int width;
     private int height;
     private int numMines;
@@ -28,11 +30,15 @@ public class Minefield {
     private boolean battleWin;
     private boolean gameFinished;
     private boolean battleFinished;
+    private boolean battleDefeated;
 
     private long timeGameStarted;
     private long timeGameDuration;
 
+    private int numPortion;
     private int score;
+    private int life;
+
     public Minefield(int width, int height, int numMines) {
         if(numMines<=0){
             throw new IllegalArgumentException("Mines nuumber must be bigger than 0");
@@ -44,6 +50,7 @@ public class Minefield {
         this.numMarkChances = numMines;
         mines = new boolean[width][height];
         states = new int[width][height];
+        portion = new boolean[width][height];
 
         random = new Random();
 
@@ -51,8 +58,11 @@ public class Minefield {
         playerDefeated = false;
         battleWin = false;
         gameFinished = false;
+        battleDefeated = false;
 
         score = 0;
+        numPortion=3;
+        life = 5;
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -70,10 +80,12 @@ public class Minefield {
 
             if (mines[x][y]) {
                 states[x][y] = BUSTED;
+
                 playerDefeated = true;
                 gameFinished = true;
                 return;
             }
+
 
             int minesAround = countMinesAround(x, y);
             states[x][y] = minesAround;
@@ -81,7 +93,7 @@ public class Minefield {
             if (minesAround == 0) {
                 revealGridNeighbors(x, y);
             }
-            
+
             if(checkVictory()) {
                 gameFinished=true;
                 playerDefeated=false;
@@ -89,16 +101,28 @@ public class Minefield {
             }
         }
     }
+
     public void BattlerevealGrid(int x, int y){
         if(states[x][y]== COVERED && !battleFinished){
             if(firstPlay){
                 firstPlay = false;
                 placeMines(x,y);
+//                placePortion(x,y);
                 timeGameStarted=System.currentTimeMillis();
             }
+
+            int minesAround = countMinesAround(x, y);
+            states[x][y] = minesAround;
+
+            if(minesAround==0){
+                revealGridNeighbors(x,y);
+            }
+
             if(mines[x][y]){
-                ++score;
+                score++;
+                life++;
                 states[x][y] = BUSTED;
+
                 if(score==numMines){
                     battleWin=true;
                     battleFinished=true;
@@ -107,7 +131,20 @@ public class Minefield {
                 }
             }
 
+            if(!mines[x][y]) {
+                life--;
+                if (life == 0) {
+                    battleDefeated = true;
+                    battleFinished = true;
+                }
             }
+
+//            if(portion[x][y]) {
+//                life++;
+//                states[x][y] = PORTION;
+//            }
+
+             }
         }
     
     public long getGameDuration(){
@@ -122,11 +159,11 @@ public class Minefield {
 
     private void revealGridNeighbors(int x, int y) {
         for (int col = Math.max(0, x - 1); col < Math.min(width, x + 2); col++) {
-            for (int line = Math.max(0, y - 1); line < Math.min(height, y + 2); line++) {
-                revealGrid(col, line);
+            for (int line = Math.max(0, y - 1); line < Math.min(height, y + 2); line++)
+                revealGrid1(col, line);
             }
         }
-    }
+
 
 	public void setMineMarked(int x, int y) {
 		if (numMarkChances > 0) {
@@ -194,6 +231,10 @@ public class Minefield {
         return battleWin;
     }
 
+    public boolean isBattleDefeated(){
+        return battleDefeated;
+    }
+
     private void placeMines(int plX, int plY) {
         // the plX and plY is the player's first play
         for (int i = 0; i < numMines; i++) {
@@ -204,6 +245,25 @@ public class Minefield {
                 y = random.nextInt(height);
             } while (mines[x][y] || (x == plX && y == plY));
             mines[x][y] = true;
+        }
+    }
+
+    private void placePortion(int plX,int plY){
+        for(int i = 0; i<numPortion; i++){
+            int x = 0;
+            int y = 0;
+            do{
+                x = random.nextInt(width);
+                y = random.nextInt(height);
+
+                if(mines[x][y]){
+                    x=random.nextInt(width);
+                    y=random.nextInt(height);
+                    continue;
+                }
+
+            }while(portion[x][y] || (x == plX && y == plY) );
+            portion[x][y] = true;
         }
     }
 
@@ -229,6 +289,33 @@ public class Minefield {
     
     public int getNumMarkChances() {
     	return numMarkChances; // 남은 표시 개수 리턴 
+    }
+
+    public int getnumlife(){
+        return life;
+    }
+
+    public void revealGrid1(int x, int y){
+        if(states[x][y]== COVERED && !battleFinished){
+            if(firstPlay){
+                firstPlay = false;
+                placeMines(x,y);
+                placePortion(x,y);
+                timeGameStarted=System.currentTimeMillis();
+            }
+
+            int minesAround = countMinesAround(x, y);
+            states[x][y] = minesAround;
+
+            if(minesAround == 0) {
+                revealGrid1(x, y);
+            }
+            else{
+                BattlerevealGrid(x,y);
+            }
+
+
+        }
     }
 
 }
