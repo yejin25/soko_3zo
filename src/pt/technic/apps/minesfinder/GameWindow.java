@@ -43,7 +43,6 @@ public class GameWindow extends javax.swing.JFrame {
 
 		buttons = new ButtonMinefield[minefield.getWidth()][minefield.getHeight()];
 
-
 		getContentPane().setLayout(new GridLayout(minefield.getWidth(), minefield.getHeight()));
 
 		ActionListener action = new ActionListener() {
@@ -126,9 +125,9 @@ public class GameWindow extends javax.swing.JFrame {
 				} else if (e.getKeyCode() == KeyEvent.VK_DOWN && x < minefield.getHeight() - 1) {
 					buttons[x + 1][y].requestFocus();
 				} else if (e.getKeyCode() == KeyEvent.VK_RIGHT && y < minefield.getWidth() - 1) {
-                    buttons[x][y + 1].requestFocus();
-                } else if(e.getKeyCode()== KeyEvent.VK_SPACE){
-					Battlebtn(x,y);
+					buttons[x][y + 1].requestFocus();
+				} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+					Battlebtn(x, y);
 				} else if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
 					if (minefield.getGridState(x, y) == minefield.COVERED) {
 						minefield.setMineMarked(x, y);
@@ -154,7 +153,7 @@ public class GameWindow extends javax.swing.JFrame {
 		// Create buttons for the player
 		for (int x = 0; x < minefield.getWidth(); x++) {
 			for (int y = 0; y < minefield.getHeight(); y++) {
-				buttons[x][y] = new ButtonMinefield(x, y,2);
+				buttons[x][y] = new ButtonMinefield(x, y, 2);
 				buttons[x][y].addActionListener(action);
 				buttons[x][y].addMouseListener(mouseListener);
 				buttons[x][y].addKeyListener(keyListener);
@@ -168,9 +167,8 @@ public class GameWindow extends javax.swing.JFrame {
 	private void initStatusBar() {
 		JMenuBar statusBar = new JMenuBar(); // 상태바 생성
 		JPanel panel = new JPanel(); // 패널 생성
-		JLabel timeLabel = new JLabel(
-				"Time : " + String.valueOf(sec[0]) + " /  Mark Chances : " + this.minefield.getnumlife() + " / Score : " + this.minefield.getscore()); // 레이블
-																													// 생성
+		JLabel timeLabel = new JLabel("Time : " + String.valueOf(sec[0]) + " /  Mark Chances : "
+				+ this.minefield.getnumlife() + " / Score : " + this.minefield.getscore()); // 레이블  생성 
 
 		ThreadPool.timeThreadPool.submit(() -> {
 			while (gameStart) {
@@ -178,7 +176,7 @@ public class GameWindow extends javax.swing.JFrame {
 				try {
 					TimeUnit.SECONDS.sleep(1); // 1초 쉬고
 					timeLabel.setText("Time : " + String.valueOf(sec[0]) + " / Mark Chances : "
-							+ this.minefield.getnumlife()+" / Score : "+this.minefield.getscore()); // 레이블 생성
+							+ this.minefield.getnumlife() + " / Score : " + this.minefield.getscore()); // 레이블 생성
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -191,15 +189,14 @@ public class GameWindow extends javax.swing.JFrame {
 		setJMenuBar(statusBar);
 	}
 
-
-	private void Battlebtn(int x, int y) {  //지뢰 다 찾으면 승리
+	private void Battlebtn(int x, int y) { // 지뢰 다 찾으면 승리
 		minefield.BattlerevealGrid(x, y);
 		updateButtonsStates();
 		if (minefield.isBattleFinished()) {
-            gameStart = false;
+			gameStart = false;
 			if (minefield.isBattleWin()) {
-				JOptionPane.showMessageDialog(null, "COGRATULATIONS. You Find All Mines",
-						"WIN!", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "COGRATULATIONS. You Find All Mines", "WIN!",
+						JOptionPane.INFORMATION_MESSAGE);
 				long a = sec[0];
 				long b = record.getScore();
 				boolean newRecord = sec[0] < record.getScore();
@@ -209,10 +206,8 @@ public class GameWindow extends javax.swing.JFrame {
 					if (name != "")
 						record.setRecord(name, sec[0]);
 				}
-			}
-			else{
-				JOptionPane.showMessageDialog(null, "Oh, You LOSE", "LOSER",
-						JOptionPane.INFORMATION_MESSAGE);
+			} else {
+				JOptionPane.showMessageDialog(null, "Oh, You LOSE", "LOSER", JOptionPane.INFORMATION_MESSAGE);
 			}
 			setVisible(false);
 		}
@@ -253,37 +248,44 @@ public class GameWindow extends javax.swing.JFrame {
 	/**
 	 * @param args the command line arguments
 	 */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GameWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GameWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GameWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GameWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+	public static void main(String args[]) {
+		/* Set the Nimbus look and feel */
+		// <editor-fold defaultstate="collapsed" desc=" Look and feel setting code
+		// (optional) ">
+		/*
+		 * If Nimbus (introduced in Java SE 6) is not available, stay with the default
+		 * look and feel. For details see
+		 * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+		 */
+		try {
+			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+				if ("Nimbus".equals(info.getName())) {
+					javax.swing.UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
+		} catch (ClassNotFoundException ex) {
+			java.util.logging.Logger.getLogger(GameWindow.class.getName()).log(java.util.logging.Level.SEVERE, null,
+					ex);
+		} catch (InstantiationException ex) {
+			java.util.logging.Logger.getLogger(GameWindow.class.getName()).log(java.util.logging.Level.SEVERE, null,
+					ex);
+		} catch (IllegalAccessException ex) {
+			java.util.logging.Logger.getLogger(GameWindow.class.getName()).log(java.util.logging.Level.SEVERE, null,
+					ex);
+		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+			java.util.logging.Logger.getLogger(GameWindow.class.getName()).log(java.util.logging.Level.SEVERE, null,
+					ex);
+		}
+		// </editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GameWindow().setVisible(true);
-            }
-        });
-    }
+		/* Create and display the form */
+		java.awt.EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				new GameWindow().setVisible(true);
+			}
+		});
+	}
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	// End of variables declaration//GEN-END:variables

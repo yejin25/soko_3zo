@@ -1,5 +1,8 @@
 package pt.technic.apps.minesfinder;
 
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,6 +15,8 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.JButton;
 
 /**
  *
@@ -199,108 +204,120 @@ public class MinesFinder extends javax.swing.JFrame {
         panelTitle.setText("Minesfinder");
         panelTitle.setOpaque(true);
         getContentPane().add(panelTitle, java.awt.BorderLayout.PAGE_START);
+        
+		JButton btnRankingChart = new JButton("Ranking Chart");
+		getContentPane().add(btnRankingChart, BorderLayout.WEST); // 왼쪽에 "Ranking Chart" 버튼 추가
 
-        panelRecords.setBackground(new java.awt.Color(118, 206, 108));
+		btnRankingChart.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				new RankingChart();
+			} // "Ranking Chart" 버튼을 클릭하면 새창을 띄운다.
 
-        Records.setFont(new java.awt.Font("Noto Sans", 1, 18)); // NOI18N
-        Records.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Records.setText("Records");
+		});
 
-        labelEasy.setFont(new java.awt.Font("Noto Sans", 0, 14)); // NOI18N
-        labelEasy.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelEasy.setText("Easy");
-
-        labelEasyName.setText("Player");
-
-        labelEasyPoints.setText("9999");
-
-        labelMedium.setFont(new java.awt.Font("Noto Sans", 0, 14)); // NOI18N
-        labelMedium.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelMedium.setText("Medium");
-
-        labelMediumName.setText("Player");
-
-        labelMediumPoints.setText("9999");
-
-        labelHard.setFont(new java.awt.Font("Noto Sans", 0, 14)); // NOI18N
-        labelHard.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelHard.setText("Hard");
-
-        labelHardName.setText("Player");
-
-        labelHardPoints.setText("9999");
-
-        labelBattle.setFont(new java.awt.Font("Noto Sans", 0, 14)); // NOI18N
-        labelBattle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelBattle.setText("Battle");
-
-        labelBattleName.setText("Winner");
-
-        labelBattlePoints.setText("9999");
-
-        javax.swing.GroupLayout panelRecordsLayout = new javax.swing.GroupLayout(panelRecords);
-        panelRecords.setLayout(panelRecordsLayout);
-        panelRecordsLayout.setHorizontalGroup(
-            panelRecordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(labelEasy, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(Records, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(panelRecordsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelRecordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelRecordsLayout.createSequentialGroup()
-                        .addComponent(labelEasyName)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(labelEasyPoints))
-                    .addComponent(labelMedium, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(panelRecordsLayout.createSequentialGroup()
-                        .addComponent(labelMediumName)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(labelMediumPoints))
-                    .addComponent(labelHard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(panelRecordsLayout.createSequentialGroup()
-                            .addComponent(labelHardName)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(labelHardPoints))
-                        .addComponent(labelBattle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(panelRecordsLayout.createSequentialGroup()
-                                .addComponent(labelBattleName)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(labelBattlePoints)))
-
-                .addContainerGap())
-        );
-        panelRecordsLayout.setVerticalGroup(
-            panelRecordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRecordsLayout.createSequentialGroup()
-                .addComponent(Records)
-                .addGap(18, 18, 18)
-                .addComponent(labelEasy)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelRecordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelEasyPoints)
-                    .addComponent(labelEasyName))
-                .addGap(18, 18, 18)
-                .addComponent(labelMedium)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelRecordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelMediumPoints)
-                    .addComponent(labelMediumName))
-                .addGap(18, 18, 18)
-                .addComponent(labelHard)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelRecordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelHardPoints)
-                    .addComponent(labelHardName))
-                .addGap(18, 18, 18)
-                    .addComponent(labelBattle)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(panelRecordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelBattlePoints)
-                            .addComponent(labelBattleName))
-                    .addGap(0, 169, Short.MAX_VALUE))
-        );
-
-        getContentPane().add(panelRecords, java.awt.BorderLayout.LINE_START);
+//        panelRecords.setBackground(new java.awt.Color(118, 206, 108));
+//
+//        Records.setFont(new java.awt.Font("Noto Sans", 1, 18)); // NOI18N
+//        Records.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+//        Records.setText("Records");
+//
+//        labelEasy.setFont(new java.awt.Font("Noto Sans", 0, 14)); // NOI18N
+//        labelEasy.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+//        labelEasy.setText("Easy");
+//
+//        labelEasyName.setText("Player");
+//
+//        labelEasyPoints.setText("9999");
+//
+//        labelMedium.setFont(new java.awt.Font("Noto Sans", 0, 14)); // NOI18N
+//        labelMedium.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+//        labelMedium.setText("Medium");
+//
+//        labelMediumName.setText("Player");
+//
+//        labelMediumPoints.setText("9999");
+//
+//        labelHard.setFont(new java.awt.Font("Noto Sans", 0, 14)); // NOI18N
+//        labelHard.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+//        labelHard.setText("Hard");
+//
+//        labelHardName.setText("Player");
+//
+//        labelHardPoints.setText("9999");
+//
+//        labelBattle.setFont(new java.awt.Font("Noto Sans", 0, 14)); // NOI18N
+//        labelBattle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+//        labelBattle.setText("Battle");
+//
+//        labelBattleName.setText("Winner");
+//
+//        labelBattlePoints.setText("9999");
+//
+//        javax.swing.GroupLayout panelRecordsLayout = new javax.swing.GroupLayout(panelRecords);
+//        panelRecords.setLayout(panelRecordsLayout);
+//        panelRecordsLayout.setHorizontalGroup(
+//            panelRecordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+//            .addComponent(labelEasy, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+//            .addComponent(Records, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+//            .addGroup(panelRecordsLayout.createSequentialGroup()
+//                .addContainerGap()
+//                .addGroup(panelRecordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+//                    .addGroup(panelRecordsLayout.createSequentialGroup()
+//                        .addComponent(labelEasyName)
+//                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+//                        .addComponent(labelEasyPoints))
+//                    .addComponent(labelMedium, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+//                    .addGroup(panelRecordsLayout.createSequentialGroup()
+//                        .addComponent(labelMediumName)
+//                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+//                        .addComponent(labelMediumPoints))
+//                    .addComponent(labelHard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+//                    .addGroup(panelRecordsLayout.createSequentialGroup()
+//                            .addComponent(labelHardName)
+//                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+//                            .addComponent(labelHardPoints))
+//                        .addComponent(labelBattle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+//                        .addGroup(panelRecordsLayout.createSequentialGroup()
+//                                .addComponent(labelBattleName)
+//                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+//                                .addComponent(labelBattlePoints)))
+//
+//                .addContainerGap())
+//        );
+//        panelRecordsLayout.setVerticalGroup(
+//            panelRecordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+//            .addGroup(panelRecordsLayout.createSequentialGroup()
+//                .addComponent(Records)
+//                .addGap(18, 18, 18)
+//                .addComponent(labelEasy)
+//                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+//                .addGroup(panelRecordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+//                    .addComponent(labelEasyPoints)
+//                    .addComponent(labelEasyName))
+//                .addGap(18, 18, 18)
+//                .addComponent(labelMedium)
+//                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+//                .addGroup(panelRecordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+//                    .addComponent(labelMediumPoints)
+//                    .addComponent(labelMediumName))
+//                .addGap(18, 18, 18)
+//                .addComponent(labelHard)
+//                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+//                .addGroup(panelRecordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+//                    .addComponent(labelHardPoints)
+//                    .addComponent(labelHardName))
+//                .addGap(18, 18, 18)
+//                    .addComponent(labelBattle)
+//                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+//                    .addGroup(panelRecordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+//                            .addComponent(labelBattlePoints)
+//                            .addComponent(labelBattleName))
+//                    .addGap(0, 169, Short.MAX_VALUE))
+//        );
+//
+//        getContentPane().add(panelRecords, java.awt.BorderLayout.LINE_START);
 
         panelBtns.setLayout(new java.awt.GridLayout(2, 0));
 
