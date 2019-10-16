@@ -1,6 +1,6 @@
 package pt.technic.apps.minesfinder;
 
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -25,10 +25,6 @@ public class GameWindow extends javax.swing.JFrame {
 	private RecordTable record;
 	private final int[] sec = { 0 };// 시간 선언
 	private boolean gameStart = false; // 게임이 시작 되었는지 판별
-	private int LIFE;
-//    private static int doublePressSpeed = 300; // double keypressed in ms
-//    private static long timeKeyDown = 0;       // last keyperessed time
-//    public static int lastKeyPressedCode;
 
 	/**
 	 * Creates new form GameWindow
@@ -46,6 +42,7 @@ public class GameWindow extends javax.swing.JFrame {
 		initStatusBar();
 
 		buttons = new ButtonMinefield[minefield.getWidth()][minefield.getHeight()];
+
 
 		getContentPane().setLayout(new GridLayout(minefield.getWidth(), minefield.getHeight()));
 
@@ -157,7 +154,7 @@ public class GameWindow extends javax.swing.JFrame {
 		// Create buttons for the player
 		for (int x = 0; x < minefield.getWidth(); x++) {
 			for (int y = 0; y < minefield.getHeight(); y++) {
-				buttons[x][y] = new ButtonMinefield(x, y,1);
+				buttons[x][y] = new ButtonMinefield(x, y,2);
 				buttons[x][y].addActionListener(action);
 				buttons[x][y].addMouseListener(mouseListener);
 				buttons[x][y].addKeyListener(keyListener);
@@ -165,13 +162,14 @@ public class GameWindow extends javax.swing.JFrame {
 				getContentPane().add(buttons[x][y]);
 			}
 		}
+
 	}
 
 	private void initStatusBar() {
 		JMenuBar statusBar = new JMenuBar(); // 상태바 생성
 		JPanel panel = new JPanel(); // 패널 생성
 		JLabel timeLabel = new JLabel(
-				"Time : " + String.valueOf(sec[0]) + " /  Mark Chances : " + this.minefield.getNumMarkChances()); // 레이블
+				"Time : " + String.valueOf(sec[0]) + " /  Mark Chances : " + this.minefield.getnumlife() + " / Score : " + this.minefield.getscore()); // 레이블
 																													// 생성
 
 		ThreadPool.timeThreadPool.submit(() -> {
@@ -180,7 +178,7 @@ public class GameWindow extends javax.swing.JFrame {
 				try {
 					TimeUnit.SECONDS.sleep(1); // 1초 쉬고
 					timeLabel.setText("Time : " + String.valueOf(sec[0]) + " / Mark Chances : "
-							+ this.minefield.getNumMarkChances()); // 레이블 생성
+							+ this.minefield.getnumlife()+" / Score : "+this.minefield.getscore()); // 레이블 생성
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -193,15 +191,6 @@ public class GameWindow extends javax.swing.JFrame {
 		setJMenuBar(statusBar);
 	}
 
-//    public static  boolean isDoublePress(KeyEvent e) {
-//        if ((e.getWhen() - timeKeyDown) < doublePressSpeed) {
-//            return true;
-//        } else {
-//            timeKeyDown = e.getWhen();
-//        }
-//        lastKeyPressedCode = e.getKeyCode();
-//        return false;
-//    }
 
 	private void Battlebtn(int x, int y) {  //지뢰 다 찾으면 승리
 		minefield.BattlerevealGrid(x, y);
@@ -211,14 +200,14 @@ public class GameWindow extends javax.swing.JFrame {
 			if (minefield.isBattleWin()) {
 				JOptionPane.showMessageDialog(null, "COGRATULATIONS. You Find All Mines",
 						"WIN!", JOptionPane.INFORMATION_MESSAGE);
-				long a = minefield.getGameDuration();
+				long a = sec[0];
 				long b = record.getScore();
-				boolean newRecord = minefield.getGameDuration() < record.getScore();
+				boolean newRecord = sec[0] < record.getScore();
 
 				if (newRecord) {
 					String name = JOptionPane.showInputDialog("Enter your name");
 					if (name != "")
-						record.setRecord(name, minefield.getGameDuration());
+						record.setRecord(name, sec[0]);
 				}
 			}
 			else{

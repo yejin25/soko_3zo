@@ -14,12 +14,16 @@ public class ButtonMinefield extends JButton {
         this.col = col;
         this.line = line;
         if(i==1){
-            setBackground(Color.gray);
+            state = Minefield.COVERED;
+            setBackground(Color.LIGHT_GRAY);
         }
-        else{
-            setBackground(Color.DARK_GRAY);
+        else if(i==0){
+            state = Minefield.COVERED;
+            setBackground(Color.GRAY);
         }
-        state=Minefield.COVERED;
+        else {
+            state = Minefield.COVERED;
+        }
     }
     
     public void setEstado(int state) {
@@ -46,8 +50,9 @@ public class ButtonMinefield extends JButton {
                 setBackground(Color.orange);
                 break;
             case Minefield.PORTION:
-                setText("&");
+                setText("#");
                 setBackground(Color.PINK);
+                break;
             default:
                 setText(String.valueOf(state));
                 setBackground(Color.gray);

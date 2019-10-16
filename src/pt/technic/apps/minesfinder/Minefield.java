@@ -14,7 +14,7 @@ public class Minefield {
     public static final int QUESTION = 10;
     public static final int MARKED = 11;
     public static final int BUSTED = 12;
-    public static final int PORTION= 13;
+    public static final int PORTION = 13;
 
     private boolean[][] mines;
     private int[][] states;
@@ -39,6 +39,7 @@ public class Minefield {
     private int score;
     private int life;
 
+
     public Minefield(int width, int height, int numMines) {
         if(numMines<=0){
             throw new IllegalArgumentException("Mines nuumber must be bigger than 0");
@@ -62,7 +63,7 @@ public class Minefield {
 
         score = 0;
         numPortion=3;
-        life = 5;
+        life = 20;
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -107,7 +108,7 @@ public class Minefield {
             if(firstPlay){
                 firstPlay = false;
                 placeMines(x,y);
-//                placePortion(x,y);
+                placePortion(x,y);
                 timeGameStarted=System.currentTimeMillis();
             }
 
@@ -126,9 +127,14 @@ public class Minefield {
                 if(score==numMines){
                     battleWin=true;
                     battleFinished=true;
-                   timeGameDuration=System.currentTimeMillis()-timeGameStarted;
+                    timeGameDuration=System.currentTimeMillis()-timeGameStarted;
                     return;
                 }
+            }
+
+            if(portion[x][y]) {
+                life++;
+                states[x][y] = PORTION;
             }
 
             if(!mines[x][y]) {
@@ -138,11 +144,6 @@ public class Minefield {
                     battleFinished = true;
                 }
             }
-
-//            if(portion[x][y]) {
-//                life++;
-//                states[x][y] = PORTION;
-//            }
 
              }
         }
@@ -256,13 +257,7 @@ public class Minefield {
                 x = random.nextInt(width);
                 y = random.nextInt(height);
 
-                if(mines[x][y]){
-                    x=random.nextInt(width);
-                    y=random.nextInt(height);
-                    continue;
-                }
-
-            }while(portion[x][y] || (x == plX && y == plY) );
+            }while(mines[x][y] || portion[x][y] );
             portion[x][y] = true;
         }
     }
@@ -293,6 +288,10 @@ public class Minefield {
 
     public int getnumlife(){
         return life;
+    }
+
+    public int getscore(){
+        return score;
     }
 
     public void revealGrid1(int x, int y){
