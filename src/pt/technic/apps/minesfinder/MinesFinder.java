@@ -1,11 +1,15 @@
 package pt.technic.apps.minesfinder;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,13 +37,13 @@ public class MinesFinder extends javax.swing.JFrame {
         readGameRecords();
 
         labelEasyName.setText(recordEasy.getName());
-        labelEasyPoints.setText(Long.toString(recordEasy.getScore()/1000));
+        labelEasyPoints.setText(Long.toString(recordEasy.getScore()));
         labelMediumName.setText(recordMedium.getName());
-        labelMediumPoints.setText(Long.toString(recordMedium.getScore()/1000));
+        labelMediumPoints.setText(Long.toString(recordMedium.getScore()));
         labelHardName.setText(recordHard.getName());
-        labelHardPoints.setText(Long.toString(recordHard.getScore()/1000));
+        labelHardPoints.setText(Long.toString(recordHard.getScore()));
         labelBattleName.setText(recordBattle.getName());
-        labelBattlePoints.setText(Long.toString(recordBattle.getScore()/1000));
+        labelBattlePoints.setText(Long.toString(recordBattle.getScore()));
 
 
 
@@ -73,19 +77,19 @@ public class MinesFinder extends javax.swing.JFrame {
 
     private void recordEasyUpdated(RecordTable record) {
         labelEasyName.setText(record.getName());
-        labelEasyPoints.setText(Long.toString(record.getScore()/1000));
+        labelEasyPoints.setText(Long.toString(record.getScore()));
         saveGameRecords();
     }
 
     private void recordMediumUpdated(RecordTable record) {
         labelMediumName.setText(record.getName());
-        labelMediumPoints.setText(Long.toString(record.getScore()/1000));
+        labelMediumPoints.setText(Long.toString(record.getScore()));
         saveGameRecords();
     }
 
     private void recordHardUpdated(RecordTable record) {
         labelHardName.setText(record.getName());
-        labelHardPoints.setText(Long.toString(record.getScore()/1000));
+        labelHardPoints.setText(Long.toString(record.getScore()));
         saveGameRecords();
     }
 
@@ -95,39 +99,63 @@ public class MinesFinder extends javax.swing.JFrame {
         saveGameRecords();
     }
 
-    private void saveGameRecords() {
-        ObjectOutputStream oos = null;
-        try {
-            File f = new File(System.getProperty("user.home") + File.separator + ".minesfinder.records");
-            oos = new ObjectOutputStream(new FileOutputStream(f));
-            oos.writeObject(recordEasy);
-            oos.writeObject(recordMedium);
-            oos.writeObject(recordHard);
-            oos.writeObject(recordBattle);
-            oos.close();
-        } catch (IOException ex) {
-            Logger.getLogger(MinesFinder.class.getName()).log(Level.SEVERE, null,
-                    ex);
-        }
-    }
+    private void saveGameRecords() { 
+    	File f = new File(System.getProperty("user.home") + File.separator + "minesfinder.txt");
+  
+		try (FileWriter writer = new FileWriter(f)) {
+			// try - with - resource 구문  
 
-    private void readGameRecords() {
-        ObjectInputStream ois = null;
-        File f = new File(System.getProperty("user.home") + File.separator + ".minesfinder.records");
-        if (f.canRead()) {
-            try {
-                ois = new ObjectInputStream(new FileInputStream(f));
-                recordEasy = (RecordTable) ois.readObject();
-                recordMedium = (RecordTable) ois.readObject();
-                recordHard = (RecordTable) ois.readObject();
-                recordBattle = (RecordTable) ois.readObject();
-                ois.close();
-            } catch (IOException | ClassNotFoundException ex) {
-                Logger.getLogger(MinesFinder.class.getName()).log(Level.SEVERE,
-                        null, ex);
-            }
-        }
-    }
+			String contents = "";
+			String easy = "EASY\n" + recordEasy.getName() + "\n" + recordEasy.getScore() + "\n";
+			String med = "MED\n" + recordMedium.getName() + "\n" + recordMedium.getScore() + "\n";
+			String hard = "HARD\n" + recordHard.getName() + "\n" + recordHard.getScore() + "\n";
+			String battle = "BATTLE\n" + recordBattle.getName() + "\n" + recordBattle.getScore();
+			contents = easy + med + hard + battle;
+
+			writer.write(contents);
+		} catch (IOException ex) {
+			Logger.getLogger(MinesFinder.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}// private void saveGameRecords() 주형 수정 
+
+	private void readGameRecords() {
+		File f = new File(System.getProperty("user.home") + File.separator + "minesfinder.txt");
+		
+		if (f.canRead()) {
+			try(FileReader reader = new FileReader(f);
+					BufferedReader buff = new BufferedReader(reader);) {
+			
+			String[] information = new String[2];
+			ArrayList<String[]> list = new ArrayList<>();
+			
+			String line = "";
+			for(int i = 1; (line=buff.readLine()) != null ; i++) {
+				if((i+1) % 3 == 0) {
+					// read name
+					information[0] = line;
+				}
+				
+				if(i % 3 == 0) {
+					// read score
+					information[1] = line;
+					list.add(information);
+					information = new String[2];
+				}				
+			} 
+			
+			recordEasy.setRecord(list.get(0)[0], Long.parseLong(list.get(0)[1]));
+			recordMedium.setRecord(list.get(1)[0], Long.parseLong(list.get(1)[1]));
+			recordHard.setRecord(list.get(2)[0], Long.parseLong(list.get(2)[1]));
+			recordBattle.setRecord(list.get(3)[0], Long.parseLong(list.get(3)[1]));
+			
+			}catch(Throwable t) {
+				t.printStackTrace();
+			}
+		} else {
+			saveGameRecords();
+			readGameRecords();
+		}
+	} // private void readGameRecords() 주형 수정 
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -303,13 +331,13 @@ public class MinesFinder extends javax.swing.JFrame {
         });
         panelBtns.add(btnHard);
 
-        btnBattle.setText("Battle");    //btnExit -> btnBattle
-        btnBattle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBattleActionPerformed(evt);
-            }
-        });
-        panelBtns.add(btnBattle);
+//        btnBattle.setText("Battle");    //btnExit -> btnBattle
+//        btnBattle.addActionListener(new java.awt.event.ActionListener() {
+//            public void actionPerformed(java.awt.event.ActionEvent evt) {
+//                btnBattleActionPerformed(evt);
+//            }
+//        });
+//        panelBtns.add(btnBattle);
 
         getContentPane().add(panelBtns, java.awt.BorderLayout.CENTER);
 
@@ -321,11 +349,11 @@ public class MinesFinder extends javax.swing.JFrame {
         gameWindow.setVisible(true);
     }//GEN-LAST:event_btnEasyActionPerformed
 
-    private void btnBattleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBattleActionPerformed
-        //System.exit(0);
-        BattleMode battlewindow = new BattleMode(new Minefield(9,9,10),recordBattle);
-        battlewindow.setVisible(true);
-    }//GEN-LAST:event_btnBattleActionPerformed
+//    private void btnBattleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBattleActionPerformed
+//        //System.exit(0);
+//        BattleMode battlewindow = new BattleMode(new Minefield(9,9,10),recordBattle);
+//        battlewindow.setVisible(true);
+//    }//GEN-LAST:event_btnBattleActionPerformed
 
     private void btnMediumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMediumActionPerformed
         GameWindow gameWindow = new GameWindow(new Minefield(16, 16, 40), recordMedium);
