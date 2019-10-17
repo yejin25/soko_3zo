@@ -15,6 +15,7 @@ public class Minefield {
     public static final int MARKED = 11;
     public static final int BUSTED = 12;
     public static final int PORTION = 13;
+    public static final int END = 14;
 
     private boolean[][] mines;
     private int[][] states;
@@ -63,7 +64,7 @@ public class Minefield {
 
         score = 0;
         numPortion=3;
-        life = 20;
+        life = 15;
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -81,7 +82,13 @@ public class Minefield {
 
             if (mines[x][y]) {
                 states[x][y] = BUSTED;
-
+                for(x=0; x<width; x++) {
+                    for(y=0; y<height;  y++) {
+                        if(mines[x][y]) {
+                            states[x][y] = BUSTED;
+                        }
+                    }
+                }
                 playerDefeated = true;
                 gameFinished = true;
                 return;
@@ -116,7 +123,7 @@ public class Minefield {
             states[x][y] = minesAround;
 
             if(minesAround==0){
-                revealGridNeighbors(x,y);
+                BattleGridNeighbors(x,y);
             }
 
             if(mines[x][y]){
@@ -131,13 +138,12 @@ public class Minefield {
                     return;
                 }
             }
-
-            if(portion[x][y]) {
+            else if(portion[x][y]) {
                 life++;
                 states[x][y] = PORTION;
             }
 
-            if(!mines[x][y]) {
+            else if(!mines[x][y]) {
                 life--;
                 if (life == 0) {
                     battleDefeated = true;
@@ -161,9 +167,16 @@ public class Minefield {
     private void revealGridNeighbors(int x, int y) {
         for (int col = Math.max(0, x - 1); col < Math.min(width, x + 2); col++) {
             for (int line = Math.max(0, y - 1); line < Math.min(height, y + 2); line++)
-                revealGrid1(col, line);
+                revealGrid(col, line);
             }
         }
+
+    private void BattleGridNeighbors(int x, int y) {
+        for (int col = Math.max(0, x - 1); col < Math.min(width, x + 2); col++) {
+            for (int line = Math.max(0, y - 1); line < Math.min(height, y + 2); line++)
+                revealGrid1(col, line);
+        }
+    }
 
 
 	public void setMineMarked(int x, int y) {
@@ -189,6 +202,11 @@ public class Minefield {
     public void setMineCovered(int x, int y) {
         if (states[x][y] == MARKED || states[x][y] == QUESTION) {
             states[x][y] = COVERED;
+        }
+    }
+
+    public void setMineEnd(int x, int y) { {
+            states[x][y] = END;
         }
     }
 

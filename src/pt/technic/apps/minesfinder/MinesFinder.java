@@ -348,13 +348,13 @@ public class MinesFinder extends javax.swing.JFrame {
         });
         panelBtns.add(btnHard);
 
-//        btnBattle.setText("Battle");    //btnExit -> btnBattle
-//        btnBattle.addActionListener(new java.awt.event.ActionListener() {
-//            public void actionPerformed(java.awt.event.ActionEvent evt) {
-//                btnBattleActionPerformed(evt);
-//            }
-//        });
-//        panelBtns.add(btnBattle);
+        btnBattle.setText("Battle");    //btnExit -> btnBattle
+        btnBattle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBattleActionPerformed(evt);
+            }
+        });
+        panelBtns.add(btnBattle);
 
         getContentPane().add(panelBtns, java.awt.BorderLayout.CENTER);
 
@@ -366,11 +366,11 @@ public class MinesFinder extends javax.swing.JFrame {
         gameWindow.setVisible(true);
     }//GEN-LAST:event_btnEasyActionPerformed
 
-//    private void btnBattleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBattleActionPerformed
-//        //System.exit(0);
-//        BattleMode battlewindow = new BattleMode(new Minefield(9,9,10),recordBattle);
-//        battlewindow.setVisible(true);
-//    }//GEN-LAST:event_btnBattleActionPerformed
+    private void btnBattleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBattleActionPerformed
+        //System.exit(0);
+        BattleMode battlewindow = new BattleMode(new Minefield(9,9,10),new Minefield(9,9,10),recordBattle);
+        battlewindow.setVisible(true);
+    }//GEN-LAST:event_btnBattleActionPerformed
 
     private void btnMediumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMediumActionPerformed
         GameWindow gameWindow = new GameWindow(new Minefield(16, 16, 40), recordMedium);
