@@ -30,6 +30,8 @@ public class BattleMode extends javax.swing.JFrame {
     private final int[] sec = { 0 };// 시간 선언
     private boolean gameStart = false; // 게임이 시작 되었는지 판별
 
+    Bgm battlebgm = new Bgm("mario.mp3",false);
+    Bgm bgm = new Bgm("mariodie.mp3",false);
 
     BattleMode()
     {
@@ -42,6 +44,8 @@ public class BattleMode extends javax.swing.JFrame {
         this.minefield2 = minefield2;
         this.record = record;
         initStatusBar();
+
+        battlebgm.start();
 
         buttons = new ButtonMinefield[minefield.getWidth()][minefield.getHeight()];
         buttons2 = new ButtonMinefield[minefield2.getWidth()][minefield2.getHeight()];
@@ -78,7 +82,7 @@ public class BattleMode extends javax.swing.JFrame {
                     buttons[x][y + 1].requestFocus();
                 } else if (e.getKeyCode() == KeyEvent.VK_F && minefield.getGridState(x, y) == minefield2.COVERED) {
                     if (minefield.getnumlife() == 0) {
-                        buttons2[x][y].requestFocus();
+                            buttons2[x][y].requestFocus();
                         for (x = 0; x < minefield.getWidth(); x++) {
                             for (y = 0; y < minefield.getHeight(); y++) {
                                 buttons[x][y].setBackground(Color.RED);
@@ -86,7 +90,7 @@ public class BattleMode extends javax.swing.JFrame {
                             }
                         }
                     }
-                    else {
+                    else if(!minefield.isBattleDefeated()){
                         Battlebtn(x, y, 0);
                         buttons2[x][y].requestFocus();
                     }
@@ -108,9 +112,8 @@ public class BattleMode extends javax.swing.JFrame {
                                 buttons2[x][y].setText("END");
                             }
                         }
-                        return;
                     }
-                    else{
+                    else if(!minefield2.isBattleDefeated()){
                         Battlebtn(x, y, 1);
                         buttons[x][y].requestFocus();
                     }
@@ -162,7 +165,7 @@ public class BattleMode extends javax.swing.JFrame {
 
     private void initStatusBar() {
         JLabel timeLabel = new JLabel(
-                "Player1   " + "Time : " + String.valueOf(sec[0]) + " /  Mark Chances : " + this.minefield.getnumlife() + " / Score : " + this.minefield.getscore()+"         "); // 레이블
+                "Player1   " + "Time : " + String.valueOf(sec[0]) + " /  Mark Chances : " + this.minefield.getnumlife() + " / LeftMines : " + this.minefield.getleft()+"         "); // 레이블
         // 생성
 
         ThreadPool.timeThreadPool.submit(() -> {
@@ -171,7 +174,7 @@ public class BattleMode extends javax.swing.JFrame {
                 try {
                     TimeUnit.SECONDS.sleep(1); // 1초 쉬고
                     timeLabel.setText("Player1   " + "Time : " + String.valueOf(sec[0]) + " / Mark Chances : "
-                            + this.minefield.getnumlife()+" / Score : "+this.minefield.getscore()); // 레이블 생성
+                            + this.minefield.getnumlife()+" / LeftMines : "+this.minefield.getleft()); // 레이블 생성
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -180,7 +183,7 @@ public class BattleMode extends javax.swing.JFrame {
         });
 
         JLabel timeLabel2 = new JLabel(
-                "Player2   " + "Time : " + String.valueOf(sec[0]) + " /  Mark Chances : " + this.minefield2.getnumlife() + " / Score : " + this.minefield2.getscore()); // 레이블
+                "Player2   " + "Time : " + String.valueOf(sec[0]) + " /  Mark Chances : " + this.minefield2.getnumlife() + " / LeftMines : " + this.minefield2.getleft()); // 레이블
         // 생성
 
         ThreadPool.timeThreadPool.submit(() -> {
@@ -189,7 +192,7 @@ public class BattleMode extends javax.swing.JFrame {
                 try {
                     TimeUnit.SECONDS.sleep(1); // 1초 쉬고
                     timeLabel2.setText("Player2   "+"Time : " + String.valueOf(sec[0]) + " / Mark Chances : "
-                            + this.minefield2.getnumlife()+" / Score : "+this.minefield2.getscore()); // 레이블 생성
+                            + this.minefield2.getnumlife()+" / LeftMines  : "+this.minefield2.getleft()); // 레이블 생성
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -206,10 +209,11 @@ public class BattleMode extends javax.swing.JFrame {
         if (i == 0) {
             minefield.BattlerevealGrid(x, y);
             updateButtonsStates();
-
             if (minefield.isBattleFinished()) {
                 gameStart = false;
+
                 if (minefield.isBattleWin()) {
+                    battlebgm.close();
                     JOptionPane.showMessageDialog(null, "COGRATULATIONS. Player1 Find All Mines",
                             "WIN!", JOptionPane.INFORMATION_MESSAGE);
                     long a = sec[0];
@@ -219,7 +223,10 @@ public class BattleMode extends javax.swing.JFrame {
                         if (name != "")
                             record.setRecord(name, sec[0]);
                     setVisible(false);
-                } else if (minefield2.isBattleDefeated()) {
+                } else if (minefield.isBattleDefeated()&&minefield2.isBattleDefeated()) {
+                    battlebgm.close();
+                    bgm.start();
+                    bgm.close();
                     JOptionPane.showMessageDialog(null, "DRAW. Try Again!",
                             "DRAW..", JOptionPane.INFORMATION_MESSAGE);
                     setVisible(false);
@@ -236,6 +243,7 @@ public class BattleMode extends javax.swing.JFrame {
             if (minefield2.isBattleFinished()) {
                 gameStart = false;
                 if (minefield2.isBattleWin()) {
+                    battlebgm.close();
                     JOptionPane.showMessageDialog(null, "COGRATULATIONS. Player2 Find All Mines",
                             "WIN!", JOptionPane.INFORMATION_MESSAGE);
                     long a = sec[0];
@@ -246,9 +254,13 @@ public class BattleMode extends javax.swing.JFrame {
                     if (name != "")
                         record.setRecord(name, sec[0]);
                     setVisible(false);
-                } else if (minefield.isBattleDefeated()) {
+                } else if (minefield.isBattleDefeated()&&minefield2.isBattleDefeated()) {
+                    battlebgm.close();
+                    bgm.start();
+                    bgm.close();
                     JOptionPane.showMessageDialog(null, "DRAW. Try Again!",
                             "DRAW..", JOptionPane.INFORMATION_MESSAGE);
+
                     setVisible(false);
                 }
             }
@@ -263,6 +275,7 @@ public class BattleMode extends javax.swing.JFrame {
             }
         }
     }
+
     private void updateButtonsStates2() {
         for (int x = 0; x < minefield2.getWidth(); x++) {
             for (int y = 0; y < minefield2.getHeight(); y++) {

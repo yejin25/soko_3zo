@@ -15,7 +15,6 @@ public class Minefield {
     public static final int MARKED = 11;
     public static final int BUSTED = 12;
     public static final int PORTION = 13;
-    public static final int END = 14;
 
     private boolean[][] mines;
     private int[][] states;
@@ -25,6 +24,7 @@ public class Minefield {
     private int numMines;
     private Random random;
     private int numMarkChances;
+    private int leftmine;
 
     private boolean firstPlay;
     private boolean playerDefeated;
@@ -64,7 +64,8 @@ public class Minefield {
 
         score = 0;
         numPortion=3;
-        life = 15;
+        life = 3;
+        leftmine=numMines;
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -127,11 +128,11 @@ public class Minefield {
             }
 
             if(mines[x][y]){
-                score++;
+                leftmine--;
                 life++;
                 states[x][y] = BUSTED;
 
-                if(score==numMines){
+                if(leftmine==0){
                     battleWin=true;
                     battleFinished=true;
                     timeGameDuration=System.currentTimeMillis()-timeGameStarted;
@@ -202,11 +203,6 @@ public class Minefield {
     public void setMineCovered(int x, int y) {
         if (states[x][y] == MARKED || states[x][y] == QUESTION) {
             states[x][y] = COVERED;
-        }
-    }
-
-    public void setMineEnd(int x, int y) { {
-            states[x][y] = END;
         }
     }
 
@@ -299,18 +295,14 @@ public class Minefield {
     public int getNumMines() {
         return numMines;
     }
-    
-    public int getNumMarkChances() {
-    	return numMarkChances; // 남은 표시 개수 리턴 
+    public int getleft() {
+        return leftmine;
     }
 
     public int getnumlife(){
         return life;
     }
 
-    public int getscore(){
-        return score;
-    }
 
     public void revealGrid1(int x, int y){
         if(states[x][y]== COVERED && !battleFinished){

@@ -19,16 +19,19 @@ import javax.swing.JPanel;
  * @author Gabriel Massadas
  */
 public class GameWindow extends javax.swing.JFrame {
-
 	private ButtonMinefield[][] buttons;
 	private Minefield minefield;
 	private RecordTable record;
 	private final int[] sec = { 0 };// 시간 선언
 	private boolean gameStart = false; // 게임이 시작 되었는지 판별
 
+	Bgm bgm = new Bgm("boom.mp3",false);
+	Bgm mainbgm = new Bgm("젤다 테트리스.mp3",false);
+
 	/**
 	 * Creates new form GameWindow
 	 */
+
 	public GameWindow() {
 		initComponents();
 	}
@@ -41,8 +44,9 @@ public class GameWindow extends javax.swing.JFrame {
 
 		initStatusBar();
 
-		buttons = new ButtonMinefield[minefield.getWidth()][minefield.getHeight()];
+		mainbgm.start();
 
+		buttons = new ButtonMinefield[minefield.getWidth()][minefield.getHeight()];
 
 		getContentPane().setLayout(new GridLayout(minefield.getWidth(), minefield.getHeight()));
 
@@ -55,6 +59,8 @@ public class GameWindow extends javax.swing.JFrame {
 				minefield.revealGrid(x, y);
 				updateButtonsStates();
 				if (minefield.isGameFinished()) {
+					bgm.start();
+					mainbgm.close();
 					gameStart = false; // 끝나면 게임 시작 false 표시
 					if (minefield.isPlayerDefeated()) {
 						JOptionPane.showMessageDialog(null, "Oh, a mine broke", "Lost!",
@@ -116,29 +122,7 @@ public class GameWindow extends javax.swing.JFrame {
 		KeyListener keyListener = new KeyListener() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				ButtonMinefield botao = (ButtonMinefield) e.getSource();
-				int x = botao.getCol();
-				int y = botao.getLine();
-				if (e.getKeyCode() == KeyEvent.VK_UP && x > 0) {
-					buttons[x - 1][y].requestFocus();
-				} else if (e.getKeyCode() == KeyEvent.VK_LEFT && y > 0) {
-					buttons[x][y - 1].requestFocus();
-				} else if (e.getKeyCode() == KeyEvent.VK_DOWN && x < minefield.getHeight() - 1) {
-					buttons[x + 1][y].requestFocus();
-				} else if (e.getKeyCode() == KeyEvent.VK_RIGHT && y < minefield.getWidth() - 1) {
-                    buttons[x][y + 1].requestFocus();
-                } else if(e.getKeyCode()== KeyEvent.VK_SPACE){
-					Battlebtn(x,y);
-				} else if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
-					if (minefield.getGridState(x, y) == minefield.COVERED) {
-						minefield.setMineMarked(x, y);
-					} else if (minefield.getGridState(x, y) == minefield.MARKED) {
-						minefield.setMineQuestion(x, y);
-					} else if (minefield.getGridState(x, y) == minefield.QUESTION) {
-						minefield.setMineCovered(x, y);
-					}
-					updateButtonsStates();
-				}
+
 			}
 
 			@Override
@@ -169,7 +153,7 @@ public class GameWindow extends javax.swing.JFrame {
 		JMenuBar statusBar = new JMenuBar(); // 상태바 생성
 		JPanel panel = new JPanel(); // 패널 생성
 		JLabel timeLabel = new JLabel(
-				"Time : " + String.valueOf(sec[0]) + " /  Mark Chances : " + this.minefield.getnumlife() + " / Score : " + this.minefield.getscore()); // 레이블
+				"Time : " + String.valueOf(sec[0]) + " /  Mark Chances : " + this.minefield.getnumlife()); // 레이블
 																													// 생성
 
 		ThreadPool.timeThreadPool.submit(() -> {
@@ -178,7 +162,7 @@ public class GameWindow extends javax.swing.JFrame {
 				try {
 					TimeUnit.SECONDS.sleep(1); // 1초 쉬고
 					timeLabel.setText("Time : " + String.valueOf(sec[0]) + " / Mark Chances : "
-							+ this.minefield.getnumlife()+" / Score : "+this.minefield.getscore()); // 레이블 생성
+							+ this.minefield.getnumlife()); // 레이블 생성
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -189,33 +173,6 @@ public class GameWindow extends javax.swing.JFrame {
 		panel.add(timeLabel);
 		statusBar.add(panel);
 		setJMenuBar(statusBar);
-	}
-
-
-	private void Battlebtn(int x, int y) {  //지뢰 다 찾으면 승리
-		minefield.BattlerevealGrid(x, y);
-		updateButtonsStates();
-		if (minefield.isBattleFinished()) {
-            gameStart = false;
-			if (minefield.isBattleWin()) {
-				JOptionPane.showMessageDialog(null, "COGRATULATIONS. You Find All Mines",
-						"WIN!", JOptionPane.INFORMATION_MESSAGE);
-				long a = sec[0];
-				long b = record.getScore();
-				boolean newRecord = sec[0] < record.getScore();
-
-				if (newRecord) {
-					String name = JOptionPane.showInputDialog("Enter your name");
-					if (name != "")
-						record.setRecord(name, sec[0]);
-				}
-			}
-			else{
-				JOptionPane.showMessageDialog(null, "Oh, You LOSE", "LOSER",
-						JOptionPane.INFORMATION_MESSAGE);
-			}
-			setVisible(false);
-		}
 	}
 
 	private void updateButtonsStates() {
