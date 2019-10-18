@@ -113,9 +113,8 @@ public class MinesFinder extends javax.swing.JFrame {
 			String contents = "";
 			String easy = "EASY\n" + recordEasy.getName() + "\n" + recordEasy.getScore() + "\n";
 			String med = "MED\n" + recordMedium.getName() + "\n" + recordMedium.getScore() + "\n";
-			String hard = "HARD\n" + recordHard.getName() + "\n" + recordHard.getScore() + "\n";
-			String battle = "BATTLE\n" + recordBattle.getName() + "\n" + recordBattle.getScore();
-			contents = easy + med + hard + battle;
+			String hard = "HARD\n" + recordHard.getName() + "\n" + recordHard.getScore();
+			contents = easy + med + hard;
 
 			writer.write(contents);
 		} catch (IOException ex) {
@@ -151,7 +150,6 @@ public class MinesFinder extends javax.swing.JFrame {
 			recordEasy.setRecord(list.get(0)[0], Long.parseLong(list.get(0)[1]));
 			recordMedium.setRecord(list.get(1)[0], Long.parseLong(list.get(1)[1]));
 			recordHard.setRecord(list.get(2)[0], Long.parseLong(list.get(2)[1]));
-			recordBattle.setRecord(list.get(3)[0], Long.parseLong(list.get(3)[1]));
 			
 			}catch(Throwable t) {
 				t.printStackTrace();
