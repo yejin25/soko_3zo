@@ -54,11 +54,11 @@ public class GameWindow extends javax.swing.JFrame {
 				minefield.revealGrid(x, y);
 				updateButtonsStates();
 				if (minefield.isGameFinished()) {
+					gameStart = false; // 끝나면 게임 시작 false 표시
 					bgm.start();
 					bgm.close();
 
 					mainbgm.close();
-					gameStart = false; // 끝나면 게임 시작 false 표시
 					if (minefield.isPlayerDefeated()) {
 						JOptionPane.showMessageDialog(null, "Oh, a mine broke", "Lost!",
 								JOptionPane.INFORMATION_MESSAGE);
@@ -145,6 +145,7 @@ public class GameWindow extends javax.swing.JFrame {
 		}
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
+				gameStart = false;
 				mainbgm.close();
 			}
 		});
