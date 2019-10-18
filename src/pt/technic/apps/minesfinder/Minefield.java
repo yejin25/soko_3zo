@@ -33,9 +33,6 @@ public class Minefield {
     private boolean battleFinished;
     private boolean battleDefeated;
 
-    private long timeGameStarted;
-    private long timeGameDuration;
-
     private int numPortion;
     private int score;
     private int life;
@@ -117,7 +114,6 @@ public class Minefield {
                 firstPlay = false;
                 placeMines(x,y);
                 placePortion(x,y);
-                timeGameStarted=System.currentTimeMillis();
             }
 
             int minesAround = countMinesAround(x, y);
@@ -135,7 +131,6 @@ public class Minefield {
                 if(leftmine==0){
                     battleWin=true;
                     battleFinished=true;
-                    timeGameDuration=System.currentTimeMillis()-timeGameStarted;
                     return;
                 }
             }
@@ -155,15 +150,6 @@ public class Minefield {
              }
         }
     
-    public long getGameDuration(){
-        if(firstPlay){
-            return 0;
-        }
-        if(!gameFinished){
-            return System.currentTimeMillis()-timeGameStarted;
-        }
-        return timeGameDuration;
-  }
 
     private void revealGridNeighbors(int x, int y) {
         for (int col = Math.max(0, x - 1); col < Math.min(width, x + 2); col++) {
@@ -312,7 +298,6 @@ public class Minefield {
                 firstPlay = false;
                 placeMines(x,y);
                 placePortion(x,y);
-                timeGameStarted=System.currentTimeMillis();
             }
 
             int minesAround = countMinesAround(x, y);

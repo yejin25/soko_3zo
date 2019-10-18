@@ -174,20 +174,22 @@ public class BattleMode extends javax.swing.JFrame {
 
     private void initStatusBar() {
         JLabel timeLabel = new JLabel(
-                "Player1 Mark Chances : " + this.minefield.getnumlife() + " / LeftMines : " + this.minefield.getleft()+"         "
-        + "Player2 Mark Chances : " + this.minefield2.getnumlife() + " / LeftMines : " + this.minefield2.getleft()); // 레이블
+                "Player1 Lifes : " + this.minefield.getnumlife() + " / Left Mines : " + this.minefield.getleft()+"         "
+        + "Player2 Lifes : " + this.minefield2.getnumlife() + " / Left Mines : " + this.minefield2.getleft()); // 레이블
         // 생성
 
         ThreadPool.timeThreadPool.submit(() -> {
             while (gameStart) {
-                try {
-                    TimeUnit.SECONDS.sleep(1); // 1초 쉬고
-                    timeLabel.setText("Player1 Mark Chances : " + this.minefield.getnumlife() + " / LeftMines : " + this.minefield.getleft()+"         "
-                            + "Player2 Mark Chances : " + this.minefield2.getnumlife() + " / LeftMines : " + this.minefield2.getleft()); // 레이블 생성
-                } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+                timeLabel.setText("Player1 Lifes : " + this.minefield.getnumlife() + " / Left Mines : " + this.minefield.getleft()+"         "
+                        + "Player2 Lifes : " + this.minefield2.getnumlife() + " / Left Mines : " + this.minefield2.getleft()); // 레이블 생성
+//                try {
+//                    TimeUnit.SECONDS.sleep(1); 
+//                    timeLabel.setText("Player1 Lifes : " + this.minefield.getnumlife() + " / LeftMines : " + this.minefield.getleft()+"         "
+//                            + "Player2 Mark Chances : " + this.minefield2.getnumlife() + " / LeftMines : " + this.minefield2.getleft()); // 레이블 생성
+//                } catch (InterruptedException e) {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }
             }
         });
 
