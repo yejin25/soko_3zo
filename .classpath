@@ -12,5 +12,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/Users/joohyung/Downloads/JLayer1.0.1/jar/jl1.0.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
