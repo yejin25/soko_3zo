@@ -212,7 +212,7 @@ public class MinesFinder extends javax.swing.JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				new RankingChart();
+				new RankingBoard();
 			} // "Ranking Chart" 버튼을 클릭하면 새창을 띄운다.
 
 		});
