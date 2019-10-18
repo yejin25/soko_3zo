@@ -27,7 +27,6 @@ public class BattleMode extends javax.swing.JFrame {
     JPanel statuspanel = new JPanel();
     JPanel statuspanel2 = new JPanel();
 
-    private final int[] sec = { 0 };// 시간 선언
     private boolean gameStart = false; // 게임이 시작 되었는지 판별
 
     Bgm battlebgm = new Bgm("mario.mp3",false);
@@ -40,6 +39,7 @@ public class BattleMode extends javax.swing.JFrame {
 
     BattleMode(Minefield minefield, Minefield minefield2, RecordTable record) {
         initComponents();
+        gameStart = true;
         this.minefield = minefield;
         this.minefield2 = minefield2;
         this.record = record;
@@ -164,6 +164,7 @@ public class BattleMode extends javax.swing.JFrame {
             pack();
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
+            	gameStart = false;
                 battlebgm.close();
             }
         });
