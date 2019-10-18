@@ -61,7 +61,7 @@ public class Minefield {
 
         score = 0;
         numPortion=3;
-        life = 3;
+        life = 15;
         leftmine=numMines;
 
         for (int x = 0; x < width; x++) {
