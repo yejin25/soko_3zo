@@ -83,7 +83,18 @@ public class BattleMode extends javax.swing.JFrame {
                 } else if (e.getKeyCode() == KeyEvent.VK_F && minefield.getGridState(x, y) == minefield2.COVERED) {
                     if(!minefield.isBattleDefeated()){
                         Battlebtn(x, y, 0);
+                        buttons2[x][y].setFocusable(true);
                         buttons2[x][y].requestFocus();
+                        for(x = 0; x<minefield.getWidth();x++) {
+                            for (y = 0; y < minefield.getHeight(); y++) {
+                                buttons[x][y].setFocusable(false);
+                            }
+                        }
+                        for(x = 0; x<minefield.getWidth();x++) {
+                            for (y = 0; y < minefield.getHeight(); y++) {
+                                buttons2[x][y].setFocusable(true);
+                            }
+                        }
                     }
 
                 } else if (e.getKeyCode() == KeyEvent.VK_UP && x > 0) {
@@ -97,7 +108,18 @@ public class BattleMode extends javax.swing.JFrame {
                 } else if (e.getKeyCode() == KeyEvent.VK_ENTER && (minefield2.getGridState(x, y) == minefield2.COVERED)) {
                      if(!minefield2.isBattleDefeated()){
                         Battlebtn(x, y, 1);
+                        buttons[x][y].setFocusable(true);
                         buttons[x][y].requestFocus();
+                         for(x = 0; x<minefield.getWidth();x++) {
+                             for (y = 0; y < minefield.getHeight(); y++) {
+                                 buttons2[x][y].setFocusable(false);
+                             }
+                         }
+                         for(x = 0; x<minefield.getWidth();x++) {
+                             for (y = 0; y < minefield.getHeight(); y++) {
+                                 buttons[x][y].setFocusable(true);
+                             }
+                         }
                     }
                 }
             }
@@ -200,7 +222,7 @@ public class BattleMode extends javax.swing.JFrame {
 
                 if (minefield.isBattleWin()) {
                     battlebgm.close();
-                    JOptionPane.showMessageDialog(null, "COGRATULATIONS. Player1 Find All Mines",
+                    JOptionPane.showMessageDialog(null, "COGRATULATIONS, WIN! Player1 Find All Mines",
                             "WIN!", JOptionPane.INFORMATION_MESSAGE);
                     setVisible(false);
                 } else if (minefield.isBattleDefeated()) {
@@ -230,7 +252,7 @@ public class BattleMode extends javax.swing.JFrame {
                 gameStart = false;
                 if (minefield2.isBattleWin()) {
                     battlebgm.close();
-                    JOptionPane.showMessageDialog(null, "COGRATULATIONS. Player2 Find All Mines",
+                    JOptionPane.showMessageDialog(null, "COGRATULATIONS, WIN! Player2 Find All Mines",
                             "WIN!", JOptionPane.INFORMATION_MESSAGE);
                     setVisible(false);
                 } else if (minefield2.isBattleDefeated()) {

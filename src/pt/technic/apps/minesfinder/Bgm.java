@@ -15,7 +15,7 @@ public class Bgm extends Thread{
         private File file;
         private FileInputStream file2;
         private BufferedInputStream file3;
-    private int pausedOnFrame = 0;
+
         public Bgm(String name,boolean is){
             try {
                 this.is = is;
