@@ -1,6 +1,10 @@
 package pt.technic.apps.minesfinder;
 
 import javazoom.jl.player.Player;
+import javazoom.jl.player.advanced.AdvancedPlayer;
+import javazoom.jl.player.advanced.PlaybackEvent;
+import javazoom.jl.player.advanced.PlaybackListener;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,7 +15,7 @@ public class Bgm extends Thread{
         private File file;
         private FileInputStream file2;
         private BufferedInputStream file3;
-
+    private int pausedOnFrame = 0;
         public Bgm(String name,boolean is){
             try {
                 this.is = is;
@@ -22,11 +26,14 @@ public class Bgm extends Thread{
             } catch (Exception e) {
             }
         }
+
         public void close(){
             is = false;
             player.close();
             this.interrupt();
+
         }
+
 
         public void run(){
             try {

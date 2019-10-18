@@ -1,12 +1,7 @@
 package pt.technic.apps.minesfinder;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JLabel;
@@ -26,18 +21,18 @@ public class GameWindow extends javax.swing.JFrame {
 	private boolean gameStart = false; // 게임이 시작 되었는지 판별
 
 
-	Bgm bgm = new Bgm("boom.mp3",false);
-	Bgm mainbgm = new Bgm("젤다 테트리스.mp3",false);
-
 	/**
 	 * Creates new form GameWindow
 	 */
+	Bgm bgm = new Bgm("boom.mp3",false);
+	Bgm mainbgm = new Bgm("젤다 테트리스.mp3",false);
 
 	public GameWindow() {
 		initComponents();
 	}
 
 	public GameWindow(Minefield minefield, RecordTable record) {
+
 		initComponents();
 		this.minefield = minefield;
 		this.record = record;
@@ -60,6 +55,8 @@ public class GameWindow extends javax.swing.JFrame {
 				updateButtonsStates();
 				if (minefield.isGameFinished()) {
 					bgm.start();
+					bgm.close();
+
 					mainbgm.close();
 					gameStart = false; // 끝나면 게임 시작 false 표시
 					if (minefield.isPlayerDefeated()) {
@@ -138,7 +135,7 @@ public class GameWindow extends javax.swing.JFrame {
 		// Create buttons for the player
 		for (int x = 0; x < minefield.getWidth(); x++) {
 			for (int y = 0; y < minefield.getHeight(); y++) {
-				buttons[x][y] = new ButtonMinefield(x, y,2);
+				buttons[x][y] = new ButtonMinefield(x, y, 2);
 				buttons[x][y].addActionListener(action);
 				buttons[x][y].addMouseListener(mouseListener);
 				buttons[x][y].addKeyListener(keyListener);
@@ -146,8 +143,14 @@ public class GameWindow extends javax.swing.JFrame {
 				getContentPane().add(buttons[x][y]);
 			}
 		}
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				mainbgm.close();
+			}
+		});
 
 	}
+
 
 	private void initStatusBar() {
 		JMenuBar statusBar = new JMenuBar(); // 상태바 생성
@@ -194,6 +197,7 @@ public class GameWindow extends javax.swing.JFrame {
 	private void initComponents() {
 		gameStart = true; // 게임을 재시작할 때 게임 시작됨을 알림
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
 		setTitle("Game");
 		setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 

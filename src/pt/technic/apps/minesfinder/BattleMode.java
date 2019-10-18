@@ -140,7 +140,11 @@ public class BattleMode extends javax.swing.JFrame {
             setContentPane(MAINPanel);
 
             pack();
-
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                battlebgm.close();
+            }
+        });
 
         }
 
