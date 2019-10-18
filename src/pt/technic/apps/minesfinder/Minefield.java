@@ -39,7 +39,7 @@ public class Minefield {
     private int numPortion;
     private int score;
     private int life;
-
+    private int getNumMarkChances;
 
     public Minefield(int width, int height, int numMines) {
         if(numMines<=0){
@@ -64,7 +64,7 @@ public class Minefield {
 
         score = 0;
         numPortion=3;
-        life = 3;
+        life = 15;
         leftmine=numMines;
 
         for (int x = 0; x < width; x++) {
@@ -303,7 +303,9 @@ public class Minefield {
         return life;
     }
 
-
+    public int getNumMarkChances(){
+        return numMarkChances;
+    }
     public void revealGrid1(int x, int y){
         if(states[x][y]== COVERED && !battleFinished){
             if(firstPlay){

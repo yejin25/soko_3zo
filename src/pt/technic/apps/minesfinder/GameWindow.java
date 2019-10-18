@@ -153,7 +153,7 @@ public class GameWindow extends javax.swing.JFrame {
 		JMenuBar statusBar = new JMenuBar(); // 상태바 생성
 		JPanel panel = new JPanel(); // 패널 생성
 		JLabel timeLabel = new JLabel(
-				"Time : " + String.valueOf(sec[0]) + " /  Mark Chances : " + this.minefield.getnumlife()); // 레이블
+				"Time : " + String.valueOf(sec[0]) + " /  Mark Chances : " + this.minefield.getNumMarkChances()); // 레이블
 																													// 생성
 
 		ThreadPool.timeThreadPool.submit(() -> {
@@ -162,7 +162,7 @@ public class GameWindow extends javax.swing.JFrame {
 				try {
 					TimeUnit.SECONDS.sleep(1); // 1초 쉬고
 					timeLabel.setText("Time : " + String.valueOf(sec[0]) + " / Mark Chances : "
-							+ this.minefield.getnumlife()); // 레이블 생성
+							+ this.minefield.getNumMarkChances()); // 레이블 생성
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
