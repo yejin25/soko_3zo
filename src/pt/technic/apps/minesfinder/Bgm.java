@@ -15,8 +15,8 @@ public class Bgm extends Thread{
         public Bgm(String name,boolean is){
             try {
                 this.is = is;
-                file = new File("/Users/seoyejin/soko_3zo/src/"+name);
-                file2 = new FileInputStream(file);
+                file = new File(name);// /Users/seoyejin/soko_3zo/src/
+                file2 = new FileInputStream(file.getCanonicalFile());
                 file3 = new BufferedInputStream(file2);
                 player = new Player(file3);
             } catch (Exception e) {

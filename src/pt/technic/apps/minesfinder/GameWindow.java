@@ -25,6 +25,7 @@ public class GameWindow extends javax.swing.JFrame {
 	private final int[] sec = { 0 };// 시간 선언
 	private boolean gameStart = false; // 게임이 시작 되었는지 판별
 
+
 	Bgm bgm = new Bgm("boom.mp3",false);
 	Bgm mainbgm = new Bgm("젤다 테트리스.mp3",false);
 
@@ -37,7 +38,6 @@ public class GameWindow extends javax.swing.JFrame {
 	}
 
 	public GameWindow(Minefield minefield, RecordTable record) {
-
 		initComponents();
 		this.minefield = minefield;
 		this.record = record;

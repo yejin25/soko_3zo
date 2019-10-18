@@ -81,15 +81,7 @@ public class BattleMode extends javax.swing.JFrame {
                 } else if (e.getKeyCode() == KeyEvent.VK_D && y < minefield.getWidth() - 1) {
                     buttons[x][y + 1].requestFocus();
                 } else if (e.getKeyCode() == KeyEvent.VK_F && minefield.getGridState(x, y) == minefield2.COVERED) {
-                    if (minefield.isBattleFinished()) {
-                        for (x = 0; x < minefield.getWidth(); x++) {
-                            for (y = 0; y < minefield.getHeight(); y++) {
-                                buttons[x][y].setBackground(Color.RED);
-                                buttons[x][y].setText("END");
-                            }
-                        }
-                    }
-                    else{
+                    if(!minefield.isBattleDefeated()){
                         Battlebtn(x, y, 0);
                         buttons2[x][y].requestFocus();
                     }
@@ -103,15 +95,7 @@ public class BattleMode extends javax.swing.JFrame {
                 } else if (e.getKeyCode() == KeyEvent.VK_RIGHT && y < minefield2.getWidth() - 1) {
                     buttons2[x][y + 1].requestFocus();
                 } else if (e.getKeyCode() == KeyEvent.VK_ENTER && (minefield2.getGridState(x, y) == minefield2.COVERED)) {
-                    if (minefield2.isBattleFinished()) {
-                        for (x = 0; x < minefield2.getWidth(); x++) {
-                            for (y = 0; y < minefield2.getHeight(); y++) {
-                                buttons2[x][y].setBackground(Color.RED);
-                                buttons2[x][y].setText("END");
-                            }
-                        }
-                    }
-                    else {
+                     if(!minefield2.isBattleDefeated()){
                         Battlebtn(x, y, 1);
                         buttons[x][y].requestFocus();
                     }
@@ -214,17 +198,17 @@ public class BattleMode extends javax.swing.JFrame {
                     battlebgm.close();
                     JOptionPane.showMessageDialog(null, "COGRATULATIONS. Player1 Find All Mines",
                             "WIN!", JOptionPane.INFORMATION_MESSAGE);
-                    long a = sec[0];
-                    long b = record.getScore();
-
-                        String name = JOptionPane.showInputDialog("Enter your name");
-                        if (name != "")
-                            record.setRecord(name, sec[0]);
                     setVisible(false);
                 } else if (minefield.isBattleDefeated()) {
                     battlebgm.close();
                     bgm.start();
                     bgm.close();
+                    for (x = 0; x < minefield.getWidth(); x++) {
+                        for (y = 0; y < minefield.getHeight(); y++) {
+                            buttons[x][y].setBackground(Color.RED);
+                            buttons[x][y].setText("END");
+                        }
+                    }
                     JOptionPane.showMessageDialog(null, "Player2 Win! Player1 try harder",
                             "Player2 win", JOptionPane.INFORMATION_MESSAGE);
                     setVisible(false);
@@ -244,18 +228,17 @@ public class BattleMode extends javax.swing.JFrame {
                     battlebgm.close();
                     JOptionPane.showMessageDialog(null, "COGRATULATIONS. Player2 Find All Mines",
                             "WIN!", JOptionPane.INFORMATION_MESSAGE);
-                    long a = sec[0];
-                    long b = record.getScore();
-
-
-                    String name = JOptionPane.showInputDialog("Enter your name");
-                    if (name != "")
-                        record.setRecord(name, sec[0]);
                     setVisible(false);
                 } else if (minefield2.isBattleDefeated()) {
                     battlebgm.close();
                     bgm.start();
                     bgm.close();
+                    for (x = 0; x < minefield2.getWidth(); x++) {
+                        for (y = 0; y < minefield2.getHeight(); y++) {
+                            buttons2[x][y].setBackground(Color.RED);
+                            buttons2[x][y].setText("END");
+                        }
+                    }
                     JOptionPane.showMessageDialog(null, "Player1 Win! Player2 try harder",
                             "Player1 win", JOptionPane.INFORMATION_MESSAGE);
 
