@@ -27,7 +27,6 @@ public class MinesFinder extends javax.swing.JFrame {
     private RecordTable recordEasy;
     private RecordTable recordMedium;
     private RecordTable recordHard;
-    private RecordTable recordBattle;
 
     /**
      * Creates new form MinesFinder
@@ -37,7 +36,6 @@ public class MinesFinder extends javax.swing.JFrame {
         recordEasy = new RecordTable();
         recordMedium = new RecordTable();
         recordHard = new RecordTable();
-        recordBattle = new RecordTable();
 
         readGameRecords();
 
@@ -47,9 +45,6 @@ public class MinesFinder extends javax.swing.JFrame {
         labelMediumPoints.setText(Long.toString(recordMedium.getScore()));
         labelHardName.setText(recordHard.getName());
         labelHardPoints.setText(Long.toString(recordHard.getScore()));
-        labelBattleName.setText(recordBattle.getName());
-        labelBattlePoints.setText(Long.toString(recordBattle.getScore()));
-
 
 
         recordEasy.addRecordTableListener(new RecordTableListener() {
@@ -72,12 +67,6 @@ public class MinesFinder extends javax.swing.JFrame {
                 recordHardUpdated(record);
             }
         });
-        recordBattle.addRecordTableListener(new RecordTableListener() {
-            @Override
-            public void recordUpdated(RecordTable record) {
-                recordBattleUpdated(record);
-            }
-        });
     }
 
     private void recordEasyUpdated(RecordTable record) {
@@ -98,11 +87,6 @@ public class MinesFinder extends javax.swing.JFrame {
         saveGameRecords();
     }
 
-    private void recordBattleUpdated(RecordTable record) {
-        labelBattleName.setText(record.getName());
-        labelBattlePoints.setText(Long.toString(record.getScore()/1000));
-        saveGameRecords();
-    }
 
     private void saveGameRecords() { 
     	File f = new File(System.getProperty("user.home") + File.separator + "minesfinder.txt");
@@ -180,9 +164,6 @@ public class MinesFinder extends javax.swing.JFrame {
         labelHard = new javax.swing.JLabel();
         labelHardName = new javax.swing.JLabel();
         labelHardPoints = new javax.swing.JLabel();
-        labelBattle = new javax.swing.JLabel();
-        labelBattleName = new javax.swing.JLabel();
-        labelBattlePoints = new javax.swing.JLabel();
 
         panelBtns = new javax.swing.JPanel();
         btnEasy = new javax.swing.JButton();
@@ -264,7 +245,7 @@ public class MinesFinder extends javax.swing.JFrame {
 
     private void btnBattleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBattleActionPerformed
         //System.exit(0);
-        BattleMode battlewindow = new BattleMode(new Minefield(9,9,10),new Minefield(9,9,10),recordBattle);
+        BattleMode battlewindow = new BattleMode(new Minefield(9,9,10),new Minefield(9,9,10));
         battlewindow.setVisible(true);
     }//GEN-LAST:event_btnBattleActionPerformed
 
@@ -327,9 +308,6 @@ public class MinesFinder extends javax.swing.JFrame {
     private javax.swing.JLabel labelMedium;
     private javax.swing.JLabel labelMediumName;
     private javax.swing.JLabel labelMediumPoints;
-    private javax.swing.JLabel labelBattle;
-    private javax.swing.JLabel labelBattleName;
-    private javax.swing.JLabel labelBattlePoints;
     private javax.swing.JPanel panelBtns;
     private javax.swing.JPanel panelRecords;
     private javax.swing.JLabel panelTitle;

@@ -16,39 +16,35 @@ public class BattleMode extends javax.swing.JFrame {
     private ButtonMinefield[][] buttons2;
     private Minefield minefield;
     private Minefield minefield2;
-    private RecordTable record;
-    private String id;
-    private ActionListener actionListener;
-    JPanel MAINPanel = new JPanel();
-    JPanel mainpanel = new JPanel();
-    JPanel mainstausbar = new JPanel();
-    JPanel panel1 = new JPanel();
-    JPanel panel2 = new JPanel();
-    JPanel statuspanel = new JPanel();
-    JPanel statuspanel2 = new JPanel();
+    private JPanel MAINPanel = new JPanel();
+    private JPanel mainpanel = new JPanel();
+    private JPanel mainstausbar = new JPanel();
+    private JPanel panel1 = new JPanel();
+    private JPanel panel2 = new JPanel();
+    private JPanel statuspanel = new JPanel();
+    private JPanel statuspanel2 = new JPanel();
 
     private boolean gameStart = false; // 게임이 시작 되었는지 판별
 
-    Bgm battlebgm = new Bgm("mario.mp3",false);
-    Bgm bgm = new Bgm("mariodie.mp3",false);
+    private Bgm battlebgm = new Bgm("mario.mp3",true);
+    private Bgm bgm = new Bgm("mariodie.mp3",false);
 
-    BattleMode()
+    public BattleMode()
     {
         initComponents();
     }
 
-    BattleMode(Minefield minefield, Minefield minefield2, RecordTable record) {
+    public BattleMode(Minefield minefield, Minefield minefield2) {
         initComponents();
         gameStart = true;
         this.minefield = minefield;
         this.minefield2 = minefield2;
-        this.record = record;
         initStatusBar();
-
-        battlebgm.start();
 
         buttons = new ButtonMinefield[minefield.getWidth()][minefield.getHeight()];
         buttons2 = new ButtonMinefield[minefield2.getWidth()][minefield2.getHeight()];
+
+        battlebgm.start();
 
         MAINPanel.setLayout(new FlowLayout());
         MAINPanel.setPreferredSize(new Dimension(1010, 560));
@@ -134,11 +130,9 @@ public class BattleMode extends javax.swing.JFrame {
             }
 
             ;
-        for(
-            int x = 0; x<minefield.getWidth();x++)
+        for(int x = 0; x<minefield.getWidth();x++)
 
-            {
-                for (int y = 0; y < minefield.getHeight(); y++) {
+            { for (int y = 0; y < minefield.getHeight(); y++) {
                     buttons[x][y] = new ButtonMinefield(x, y, 1);
                     buttons2[x][y] = new ButtonMinefield(x, y, 0);
                     buttons[x][y].setPreferredSize(new Dimension(55, 55));

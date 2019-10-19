@@ -24,8 +24,8 @@ public class GameWindow extends javax.swing.JFrame {
 	/**
 	 * Creates new form GameWindow
 	 */
-	Bgm bgm = new Bgm("boom.mp3",false);
-	Bgm mainbgm = new Bgm("젤다 테트리스.mp3",false);
+	private Bgm bgm = new Bgm("boom.mp3",false);
+	private Bgm mainbgm = new Bgm("젤다 테트리스.mp3",true);
 
 	public GameWindow() {
 		initComponents();

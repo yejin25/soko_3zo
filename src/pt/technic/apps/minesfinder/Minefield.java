@@ -34,9 +34,7 @@ public class Minefield {
     private boolean battleDefeated;
 
     private int numPortion;
-    private int score;
     private int life;
-    private int getNumMarkChances;
 
     public Minefield(int width, int height, int numMines) {
         if(numMines<=0){
@@ -59,7 +57,6 @@ public class Minefield {
         gameFinished = false;
         battleDefeated = false;
 
-        score = 0;
         numPortion=3;
         life = 15;
         leftmine=numMines;
@@ -162,6 +159,25 @@ public class Minefield {
         for (int col = Math.max(0, x - 1); col < Math.min(width, x + 2); col++) {
             for (int line = Math.max(0, y - 1); line < Math.min(height, y + 2); line++)
                 revealGrid1(col, line);
+        }
+    }
+
+    private void revealGrid1(int x, int y){
+        if(states[x][y]== COVERED && !battleFinished){
+            if(firstPlay){
+                firstPlay = false;
+                placeMines(x,y);
+                placePortion(x,y);
+            }
+            int minesAround = countMinesAround(x, y);
+            states[x][y] = minesAround;
+
+            if(minesAround == 0) {
+                revealGrid1(x, y);
+            }
+            else {
+                BattlerevealGrid(x, y);
+            }
         }
     }
 
@@ -291,27 +307,6 @@ public class Minefield {
 
     public int getNumMarkChances(){
         return numMarkChances;
-    }
-    public void revealGrid1(int x, int y){
-        if(states[x][y]== COVERED && !battleFinished){
-            if(firstPlay){
-                firstPlay = false;
-                placeMines(x,y);
-                placePortion(x,y);
-            }
-
-            int minesAround = countMinesAround(x, y);
-            states[x][y] = minesAround;
-
-            if(minesAround == 0) {
-                revealGrid1(x, y);
-            }
-            else{
-                BattlerevealGrid(x,y);
-            }
-
-
-        }
     }
 
 }

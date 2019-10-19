@@ -1,9 +1,6 @@
 package pt.technic.apps.minesfinder;
 
 import javazoom.jl.player.Player;
-import javazoom.jl.player.advanced.AdvancedPlayer;
-import javazoom.jl.player.advanced.PlaybackEvent;
-import javazoom.jl.player.advanced.PlaybackListener;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -19,22 +16,19 @@ public class Bgm extends Thread{
         public Bgm(String name,boolean is){
             try {
                 this.is = is;
-                file = new File(name);// /Users/seoyejin/soko_3zo/src/
+                file = new File(name);
                 file2 = new FileInputStream(file.getCanonicalFile());
                 file3 = new BufferedInputStream(file2);
                 player = new Player(file3);
             } catch (Exception e) {
             }
         }
-
         public void close(){
             is = false;
             player.close();
             this.interrupt();
 
         }
-
-
         public void run(){
             try {
                 do{
