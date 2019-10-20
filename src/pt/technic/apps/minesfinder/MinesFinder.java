@@ -24,18 +24,18 @@ import javax.swing.JButton;
  */
 public class MinesFinder extends javax.swing.JFrame {
 
-    private RecordTable recordEasy;
-    private RecordTable recordMedium;
-    private RecordTable recordHard;
+    private Player recordEasy;
+    private Player recordMedium;
+    private Player recordHard;
 
     /**
      * Creates new form MinesFinder
      */
     public MinesFinder() {
         initComponents();
-        recordEasy = new RecordTable();
-        recordMedium = new RecordTable();
-        recordHard = new RecordTable();
+        recordEasy = new Player();
+        recordMedium = new Player();
+        recordHard = new Player();
 
         readGameRecords();
 
@@ -47,41 +47,41 @@ public class MinesFinder extends javax.swing.JFrame {
         labelHardPoints.setText(Long.toString(recordHard.getScore()));
 
 
-        recordEasy.addRecordTableListener(new RecordTableListener() {
+        recordEasy.addRecordTableListener(new PlayerListener() {
             @Override
-            public void recordUpdated(RecordTable record) {
+            public void recordUpdated(Player record) {
                 recordEasyUpdated(record);
             }
         });
 
-        recordMedium.addRecordTableListener(new RecordTableListener() {
+        recordMedium.addRecordTableListener(new PlayerListener() {
             @Override
-            public void recordUpdated(RecordTable record) {
+            public void recordUpdated(Player record) {
                 recordMediumUpdated(record);
             }
         });
 
-        recordHard.addRecordTableListener(new RecordTableListener() {
+        recordHard.addRecordTableListener(new PlayerListener() {
             @Override
-            public void recordUpdated(RecordTable record) {
+            public void recordUpdated(Player record) {
                 recordHardUpdated(record);
             }
         });
     }
 
-    private void recordEasyUpdated(RecordTable record) {
+    private void recordEasyUpdated(Player record) {
         labelEasyName.setText(record.getName());
         labelEasyPoints.setText(Long.toString(record.getScore()));
         saveGameRecords();
     }
 
-    private void recordMediumUpdated(RecordTable record) {
+    private void recordMediumUpdated(Player record) {
         labelMediumName.setText(record.getName());
         labelMediumPoints.setText(Long.toString(record.getScore()));
         saveGameRecords();
     }
 
-    private void recordHardUpdated(RecordTable record) {
+    private void recordHardUpdated(Player record) {
         labelHardName.setText(record.getName());
         labelHardPoints.setText(Long.toString(record.getScore()));
         saveGameRecords();

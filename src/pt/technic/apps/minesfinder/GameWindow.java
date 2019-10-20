@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 public class GameWindow extends javax.swing.JFrame {
 	private ButtonMinefield[][] buttons;
 	private Minefield minefield;
-	private RecordTable record;
+	private Player record;
 	private final int[] sec = { 0 };// 시간 선언
 	private boolean gameStart = false; // 게임이 시작 되었는지 판별
 
@@ -31,7 +31,7 @@ public class GameWindow extends javax.swing.JFrame {
 		initComponents();
 	}
 
-	public GameWindow(Minefield minefield, RecordTable record) {
+	public GameWindow(Minefield minefield, Player record) {
 
 		initComponents();
 		this.minefield = minefield;

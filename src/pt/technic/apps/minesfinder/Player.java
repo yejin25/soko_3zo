@@ -7,16 +7,16 @@ import java.util.ArrayList;
  *
  * @author Gabriel Massadas
  */
-public class RecordTable implements Serializable {
+public class Player implements Serializable {
 
     private transient final int MAX_CHAR = 10;
     
     private String name;
     private long score;
 
-    private transient ArrayList<RecordTableListener> listeners;
+    private transient ArrayList<PlayerListener> listeners;
 
-    public RecordTable() {
+    public Player() {
         name = "Anonymous";
         score = 9999999;
         listeners = new ArrayList<>();
@@ -38,14 +38,14 @@ public class RecordTable implements Serializable {
         }
     }
 
-    public void addRecordTableListener(RecordTableListener list) {
+    public void addRecordTableListener(PlayerListener list) {
         if (listeners == null) {
             listeners = new ArrayList<>();
         }
         listeners.add(list);
     }
 
-    public void removeRecordTableListener(RecordTableListener list) {
+    public void removeRecordTableListener(PlayerListener list) {
         if (listeners != null) {
             listeners.remove(list);
         }
@@ -53,7 +53,7 @@ public class RecordTable implements Serializable {
 
     private void notifyRecordTableUpdated() {
         if (listeners != null) {
-            for (RecordTableListener list : listeners) {
+            for (PlayerListener list : listeners) {
                 list.recordUpdated(this);
             }
         }
