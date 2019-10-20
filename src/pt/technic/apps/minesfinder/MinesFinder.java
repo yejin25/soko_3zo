@@ -184,7 +184,7 @@ public class MinesFinder extends javax.swing.JFrame {
         panelTitle.setOpaque(true);
         getContentPane().add(panelTitle, java.awt.BorderLayout.PAGE_START);
         
-		JButton btnRankingChart = new JButton("Ranking Chart");
+		JButton btnRankingChart = new JButton("Ranking Board");
 		getContentPane().add(btnRankingChart, BorderLayout.WEST); // 왼쪽에 "Ranking Chart" 버튼 추가
 
 		btnRankingChart.addActionListener(new ActionListener() {
