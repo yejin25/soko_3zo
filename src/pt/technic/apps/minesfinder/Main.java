@@ -34,16 +34,15 @@ import pt.technic.apps.minesfinder.view.RankingBoard;
 public class Main extends JFrame {
 
 	public static final String FILE_NAME = System.getProperty("user.home") + File.separator + "minesfinder.txt";
-	// 파일 경로를 명시해주세요. 
-	
+	// 파일 경로를 명시
+
 	public static void main(String args[]) throws ClassNotFoundException, InstantiationException,
-	IllegalAccessException, UnsupportedLookAndFeelException {
-		
+			IllegalAccessException, UnsupportedLookAndFeelException {
+
 		UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 		EventQueue.invokeLater(() -> new Main().setVisible(true));
 	}
 
-	
 	private JLabel Records = new JLabel();
 	private JLabel panelTitle = new JLabel();
 	private JPanel panelBtns = new JPanel();
@@ -74,15 +73,15 @@ public class Main extends JFrame {
 		setResizable(false);
 
 		panelTitle.setBackground(new Color(136, 135, 217));
-		panelTitle.setFont(new Font("Ubuntu", 1, 24)); // NOI18N
+		panelTitle.setFont(new Font("Ubuntu", 1, 24));
 		panelTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		panelTitle.setText("Minesfinder");
 		panelTitle.setOpaque(true);
 
 		getContentPane().add(panelTitle, BorderLayout.PAGE_START);
-		JButton btnRankingChart = new JButton("Ranking Board");
-		getContentPane().add(btnRankingChart, BorderLayout.WEST); // 왼쪽에 "Ranking Chart" 버튼 추가
-		btnRankingChart.addActionListener(e -> new RankingBoard());
+		JButton btnRankingBoard = new JButton("Ranking Board");
+		getContentPane().add(btnRankingBoard, BorderLayout.WEST); // 왼쪽에 "Ranking Board" 버튼 추가
+		btnRankingBoard.addActionListener(e -> new RankingBoard());
 		panelBtns.setLayout(new GridLayout(2, 0));
 
 		setBtn("Easy", e -> new GameWindow(new Minefield(9, 9, 10), Mode.EASY).setVisible(true), panelBtns, true);

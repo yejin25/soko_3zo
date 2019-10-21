@@ -15,7 +15,7 @@ public class RankingBoard extends JFrame {
 	public RankingBoard() {
 		int maxRankingShow = 20;
 
-		setTitle("Ranking Chart");
+		setTitle("Ranking Board");
 
 		GridLayout grid = new GridLayout(21, 4);
 		grid.setVgap(5);
