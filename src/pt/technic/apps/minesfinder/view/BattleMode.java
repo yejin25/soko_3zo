@@ -1,8 +1,12 @@
-package pt.technic.apps.minesfinder;
+package pt.technic.apps.minesfinder.view;
 
 import javax.lang.model.util.AbstractAnnotationValueVisitor6;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+import pt.technic.apps.minesfinder.util.Bgm;
+import pt.technic.apps.minesfinder.util.ThreadPool;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.concurrent.TimeUnit;

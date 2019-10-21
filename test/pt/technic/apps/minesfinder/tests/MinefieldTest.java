@@ -14,7 +14,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import pt.technic.apps.minesfinder.Minefield;
+import pt.technic.apps.minesfinder.view.Minefield;
 
 /**
  *

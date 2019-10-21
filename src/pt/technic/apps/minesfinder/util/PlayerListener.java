@@ -1,4 +1,6 @@
-package pt.technic.apps.minesfinder;
+package pt.technic.apps.minesfinder.util;
+
+import pt.technic.apps.minesfinder.entity.Player;
 
 /**
  *

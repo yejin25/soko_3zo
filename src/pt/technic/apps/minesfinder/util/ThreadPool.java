@@ -1,4 +1,4 @@
-package pt.technic.apps.minesfinder;
+package pt.technic.apps.minesfinder.util;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
